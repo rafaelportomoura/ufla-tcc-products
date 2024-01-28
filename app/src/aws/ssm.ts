@@ -1,9 +1,12 @@
 /* eslint-disable no-empty-function */
-import { GetParameterCommand, GetParameterRequest, SSMClient } from '@aws-sdk/client-ssm';
-import { AWS_CONFIGURATION } from '../constants/aws';
+import { GetParameterCommand, GetParameterRequest, SSMClient, SSMClientConfig } from '@aws-sdk/client-ssm';
 
 export class SSM {
-  constructor(private client = new SSMClient(AWS_CONFIGURATION)) {}
+  private client: SSMClient;
+
+  constructor(config: SSMClientConfig) {
+    this.client = new SSMClient(config);
+  }
 
   async getParams<T>(parameter_name: string, with_decryption = false): Promise<T> {
     const input: GetParameterRequest = { Name: parameter_name, WithDecryption: with_decryption };

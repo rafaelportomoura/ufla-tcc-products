@@ -10,17 +10,21 @@ import {
   ReceiveMessageCommandInput,
   ReceiveMessageCommandOutput,
   SQSClient,
+  SQSClientConfig,
   SendMessageCommand,
   SendMessageCommandOutput,
   SendMessageRequest
 } from '@aws-sdk/client-sqs';
-import { AWS_CONFIGURATION } from '../constants/aws';
 
 export class SQS {
+  private client: SQSClient;
+
   constructor(
     private queue_url: string,
-    private client = new SQSClient(AWS_CONFIGURATION) // eslint-disable-next-line no-empty-function
-  ) {}
+    config: SQSClientConfig
+  ) {
+    this.client = new SQSClient(config);
+  }
 
   async send(message: unknown): Promise<SendMessageCommandOutput> {
     const input: SendMessageRequest = {

@@ -3,22 +3,26 @@ import { FastifyBaseLogger } from 'fastify';
 import { isEmpty } from 'lodash';
 import mongoose from 'mongoose';
 import qs from 'qs';
+import { aws_config } from '../aws/config';
 import { SecretsManager } from '../aws/secretsManager';
 import { SSM } from '../aws/ssm';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
 import { DatabaseError } from '../exceptions/DatabaseError';
-import { AwsConfig } from '../types/Aws';
+import { AwsParams } from '../types/Aws';
 import { DocumentParams, DocumentSecret } from '../types/DocumentSecret';
 
 export class DocumentDatabase {
   private secret_manager: SecretsManager;
 
+  private ssm: SSM;
+
   constructor(
-    config: AwsConfig,
+    config: AwsParams,
     private logger: FastifyBaseLogger
   ) {
-    this.secret_manager = new SecretsManager(config);
+    this.secret_manager = new SecretsManager(aws_config(config));
+    this.ssm = new SSM(aws_config(config));
   }
 
   async connect(params_secret?: DocumentSecret, document_params?: DocumentParams) {
@@ -32,8 +36,7 @@ export class DocumentDatabase {
 
       let params = document_params;
       if (isEmpty(params)) {
-        const ssm = new SSM();
-        params = await ssm.getParams<DocumentParams>(CONFIGURATION.DOCUMENT_PARAMS);
+        params = await this.ssm.getParams<DocumentParams>(CONFIGURATION.DOCUMENT_PARAMS);
       }
 
       const { password, username } = secrets;
