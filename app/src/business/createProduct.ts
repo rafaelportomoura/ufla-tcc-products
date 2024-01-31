@@ -4,7 +4,7 @@ import { STATUS_MAP } from '../constants/status';
 import { ConflictError } from '../exceptions/ConflictError';
 import { ProductsRepository } from '../repositories/products';
 import { EventBus } from '../services/EventBus';
-import { CreateProductArgs, CreateProductPayload, ProductSeed } from '../types/CreateProduct';
+import { CreateProductArgs, CreateProductPayload, RawProduct } from '../types/CreateProduct';
 import { Product } from '../types/Product';
 
 export class CreateProduct {
@@ -12,24 +12,29 @@ export class CreateProduct {
 
   private event_bus: EventBus;
 
-  constructor({ stage, tenant, logger, topic, region }: CreateProductArgs) {
-    this.repository = new ProductsRepository({ stage, tenant });
+  constructor({ logger, topic, region }: CreateProductArgs) {
+    this.repository = new ProductsRepository({ region }, logger);
     this.event_bus = new EventBus(logger, topic, { region });
   }
 
   async create(payload: CreateProductPayload): Promise<Product> {
-    const already_exists = await this.repository.findOne({ name: payload.name });
+    await this.repository.connect();
+    const already_exists = await this.repository.findOne(
+      this.repository.alreadyExistFilter(payload.name),
+      { _id: 1 },
+      { lean: true }
+    );
 
     if (already_exists) throw new ConflictError(CODE_MESSAGES.ALREADY_EXISTS_NAME);
 
-    const product = await this.repository.create(this.productSeed(payload));
+    const product = await this.repository.create(this.generate(payload));
 
     await this.sendEvent(product);
 
     return product;
   }
 
-  productSeed(payload: CreateProductPayload): ProductSeed {
+  generate(payload: CreateProductPayload): RawProduct {
     return {
       ...payload,
       status: STATUS_MAP.UNAVAILABLE,

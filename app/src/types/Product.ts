@@ -1,4 +1,12 @@
-import { z } from 'zod';
-import { product_schema } from '../schemas/product';
+import { Status } from './Status';
 
-export type Product = z.infer<typeof product_schema>;
+export type Product = {
+  _id: string;
+  name: string;
+  details: Record<string, unknown>;
+  price: number;
+  created_at: Date;
+  updated_at: Date;
+  status: Status;
+  images: Array<string>;
+};

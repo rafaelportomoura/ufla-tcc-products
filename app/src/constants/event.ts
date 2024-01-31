@@ -3,7 +3,8 @@ import { CONFIGURATION } from './configuration';
 export const EVENT = CONFIGURATION.MICROSERVICE;
 
 export const EVENT_TYPE = {
-  CREATE: 'create'
+  CREATE: 'create',
+  EDIT: 'edit'
 } as const;
 
 export const EVENT_STATUS = {

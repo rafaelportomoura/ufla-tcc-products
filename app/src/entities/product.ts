@@ -20,5 +20,4 @@ const product_schema = new Schema<Product>(
   }
 );
 
-export const create_product_model = (stage: string, tenant: string) =>
-  model<Product>('Product', product_schema, COLLECTION_NAMES.PRODUCTS(stage, tenant));
+export const create_product_model = () => model<Product>('Product', product_schema, COLLECTION_NAMES.PRODUCTS);
