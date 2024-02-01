@@ -27,11 +27,13 @@ export class ProductsRepository {
   }
 
   async create(payload: RawProduct): Promise<Product> {
+    await this.connect();
     const product = await this.model.create(payload);
     return product.toObject();
   }
 
   async edit(product_id: Product['_id'], edit: EditProductPayload): Promise<Product | null> {
+    await this.connect();
     const response = await this.model.findOneAndUpdate(
       {
         _id: product_id,
@@ -43,11 +45,30 @@ export class ProductsRepository {
     return response;
   }
 
+  async count(query: FilterQuery<Product>): Promise<number> {
+    await this.connect();
+    const response = await this.model.countDocuments(query);
+
+    return response;
+  }
+
+  async find(
+    query: FilterQuery<Product>,
+    projection: ProjectionType<Product> = {},
+    options: QueryOptions<Product> = {}
+  ): Promise<Product[]> {
+    await this.connect();
+    const products = await this.model.find(query, projection, options);
+
+    return options.lean ? (products as Product[]) : products.map((v) => v.toObject());
+  }
+
   async findOne(
     query: FilterQuery<Product>,
     projection: ProjectionType<Product> = {},
     options: QueryOptions<Product> = {}
   ): Promise<Product | undefined> {
+    await this.connect();
     const product = await this.model.findOne(query, projection, options);
 
     return options.lean ? (product as Product) : product?.toObject();

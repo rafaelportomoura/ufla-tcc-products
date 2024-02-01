@@ -21,8 +21,6 @@ export class EditProduct {
   }
 
   async edit(payload: EditProductPayload): Promise<Product> {
-    await this.repository.connect();
-
     if (payload.name) await this.checkAlreadyExist(payload.name);
 
     const product = await this.repository.edit(this.product_id, payload);

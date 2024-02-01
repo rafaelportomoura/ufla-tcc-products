@@ -28,5 +28,9 @@ export const CODE_MESSAGES = {
   CREATE_PRODUCT: {
     code: prefix(n++),
     message: 'Successfully created product!'
+  },
+  INVALID_PAGE: {
+    code: prefix(n++),
+    message: 'Invalid page!'
   }
 } as const;

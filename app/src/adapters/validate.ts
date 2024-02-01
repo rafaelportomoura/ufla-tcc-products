@@ -1,9 +1,9 @@
 /* eslint-disable no-empty-function */
-import { ZodType, z } from 'zod';
+import { ZodType, ZodTypeAny, z } from 'zod';
 import { ValidationError } from '../exceptions/ValidationError';
 
 export class Validator<T> {
-  constructor(private schema: ZodType<T>) {}
+  constructor(private schema: ZodType<T> | ZodTypeAny) {}
 
   async validate(value_to_check: unknown): Promise<z.infer<ZodType<T>>> {
     const result = await this.schema.safeParseAsync(value_to_check);

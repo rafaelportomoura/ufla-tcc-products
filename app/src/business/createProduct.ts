@@ -18,7 +18,6 @@ export class CreateProduct {
   }
 
   async create(payload: CreateProductPayload): Promise<Product> {
-    await this.repository.connect();
     const already_exists = await this.repository.findOne(
       this.repository.alreadyExistFilter(payload.name),
       { _id: 1 },
