@@ -1,5 +1,6 @@
 import FastifyCors from '@fastify/cors';
 import Fastify from 'fastify';
+import qs from 'fastify-qs';
 
 import { logger_options } from '../adapters/logger';
 import { CONFIGURATION } from '../constants/configuration';
@@ -10,6 +11,7 @@ import { router } from '../routes';
 const server = Fastify({
   logger: logger_options(CONFIGURATION.STAGE, CONFIGURATION.LOG_LEVEL)
 });
+server.register(qs, {});
 server.register(FastifyCors, {
   origin: '*',
   allowedHeaders: '*',

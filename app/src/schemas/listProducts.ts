@@ -12,9 +12,9 @@ export const list_products_schema = z
     search: search_schema({
       name: z.string().max(250),
       description: z.string().max(250),
-      status: z.enum(STATUS).optional(),
-      created_at: z.string().optional(),
-      updated_at: z.string().optional()
+      status: z.enum(STATUS),
+      created_at: z.string(),
+      updated_at: z.string()
     }).optional(),
     project: project_schema(
       'name',

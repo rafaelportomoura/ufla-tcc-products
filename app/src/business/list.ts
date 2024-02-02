@@ -1,4 +1,3 @@
-import { FastifyBaseLogger } from 'fastify';
 import { isEmpty } from 'lodash';
 import { FilterQuery } from 'mongoose';
 import { CODE_MESSAGES } from '../constants/codeMessages';
@@ -11,11 +10,8 @@ import { Product } from '../types/Product';
 export class ListProducts {
   private repository: ProductsRepository;
 
-  private logger: FastifyBaseLogger;
-
   constructor({ aws_params, logger }: ListProductsArgs) {
     this.repository = new ProductsRepository(aws_params, logger);
-    this.logger = logger;
   }
 
   async get(filter: ListProductsFilter): Promise<ListProductsResponse> {
@@ -39,14 +35,18 @@ export class ListProducts {
   }
 
   createQuery({ search }: ListProductsFilter): FilterQuery<Product> {
+    console.log(search);
     const query: FilterQuery<Product> = {};
 
     if (isEmpty(search)) return query;
 
     for (const [key, filters] of Object.entries(search)) {
-      query[key] = { $and: [] };
-      for (const [operator, value] of Object.keys(filters)) {
-        query[key].$and.push(OPERATORS_MAP_TO_MONGO[operator as keyof typeof OPERATORS_MAP_TO_MONGO](value));
+      query[key] = {};
+      for (const [operator, value] of Object.entries(filters)) {
+        query[key] = {
+          ...query[key],
+          ...OPERATORS_MAP_TO_MONGO[operator as keyof typeof OPERATORS_MAP_TO_MONGO](value)
+        };
       }
     }
 
