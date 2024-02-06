@@ -14,5 +14,7 @@ export const CONFIGURATION = {
   GROUPS_TABLE: set_string_env('GROUPS_TABLE', 'table'),
   EVENT_BUS: set_string_env('EVENT_BUS', ''),
   DOCUMENT_SECRET: set_string_env('DOCUMENT_SECRET', ''),
-  DOCUMENT_PARAMS: set_string_env('DOCUMENT_PARAMS', '')
+  DOCUMENT_PARAMS: set_string_env('DOCUMENT_PARAMS', ''),
+  BUCKET_NAME: set_string_env('BUCKET_NAME', 'teste-tcc-rafael-moura'),
+  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images')
 } as const;

@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { ZodEnum, ZodNumber, ZodOptional, ZodPipeline, ZodType, ZodTypeAny, z } from 'zod';
 import { OPERATOR } from '../constants/search';
 import { Operator } from '../types/Search';
@@ -8,10 +9,27 @@ export const project_schema = <T extends string>(...keys: T[]) => {
     obj[key] = z.enum(['0', '1']).pipe(z.coerce.number()).optional();
   }
 
-  return z.object(obj).strict();
+  return z
+    .object(obj)
+    .strict()
+    .refine((v) => {
+      const values = Object.values(v);
+      return values.every((a) => a === values[0]);
+    }, 'Cannot do inclusion and exclusion projection');
 };
 
-const xor = (a: unknown, b: unknown) => (a && !b) || (!a && b);
+const xor = (a: boolean, b: boolean) => (a && !b) || (!a && b);
+
+const and = (...args: unknown[]) => args.reduce((p, v) => Boolean(p) && Boolean(v));
+
+const or = (...args: unknown[]) => args.reduce((p, v) => Boolean(p) || Boolean(v));
+
+const conflict_operator_check = (a: unknown, b: unknown) => {
+  const or_exclusive = xor(!isEmpty(a), !isEmpty(b));
+  const and_of_false = and(isEmpty(a), isEmpty(b));
+  const or_of = or(and_of_false, or_exclusive);
+  return or_of;
+};
 
 export const search_schema = <T extends string, Y extends ZodTypeAny>(types: Record<T, Y>) => {
   const obj = {} as Record<T, ZodType<Record<Operator, z.infer<Y>>>>;
@@ -31,8 +49,14 @@ export const search_schema = <T extends string, Y extends ZodTypeAny>(types: Rec
         [OPERATOR.GTE]: optional
       })
       .strict()
-      .refine((arg) => !xor(arg[OPERATOR.EQ], arg[OPERATOR.NE]), 'Cannot use EQ and NE with the same property!')
-      .refine((arg) => !xor(arg[OPERATOR.NIN], arg[OPERATOR.IN]), 'Cannot use IN and NIN with the same property!')
+      .refine(
+        (arg) => conflict_operator_check(arg[OPERATOR.EQ], arg[OPERATOR.NE]),
+        'Cannot use EQ and NE with the same property!'
+      )
+      .refine(
+        (arg) => conflict_operator_check(arg[OPERATOR.NIN], arg[OPERATOR.IN]),
+        'Cannot use IN and NIN with the same property!'
+      )
       .optional();
   }
 

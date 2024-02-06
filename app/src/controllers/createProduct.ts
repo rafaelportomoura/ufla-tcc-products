@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Validator } from '../adapters/validate';
+import { aws_params } from '../aws/config';
 import { CreateProduct } from '../business/createProduct';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
@@ -14,7 +15,7 @@ export async function createProduct(req: FastifyRequest, res: FastifyReply): Pro
   const business = new CreateProduct({
     logger,
     topic: CONFIGURATION.EVENT_BUS,
-    region: CONFIGURATION.REGION
+    aws_params: aws_params()
   });
   const { _id } = await business.create(body as CreateProductPayload);
   const response = {

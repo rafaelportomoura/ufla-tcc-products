@@ -1,4 +1,5 @@
 import FastifyCors from '@fastify/cors';
+import multipart from '@fastify/multipart';
 import Fastify from 'fastify';
 import qs from 'fastify-qs';
 
@@ -17,6 +18,7 @@ server.register(FastifyCors, {
   allowedHeaders: '*',
   methods: '*'
 });
+server.register(multipart);
 server.setErrorHandler(error_middleware);
 
 server.get('/health-check', (_, res) => res.status(HTTP_STATUS_CODE.OK).send('alive'));

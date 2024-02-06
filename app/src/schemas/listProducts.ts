@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { ORDERS, ORDER_BY, ORDER_KEY } from '../constants/search';
 import { STATUS } from '../constants/status';
-import { project_schema, search_schema } from './search';
+import { product_schema, project_product_schema } from './product';
+import { search_schema } from './search';
 
 export const list_products_schema = z
   .object({
@@ -10,21 +11,13 @@ export const list_products_schema = z
     order: z.enum(ORDERS).default(ORDER_KEY.DESC),
     order_by: z.enum(ORDER_BY).default('created_at'),
     search: search_schema({
-      name: z.string().max(250),
-      description: z.string().max(250),
+      name: product_schema.name_schema.max(250),
+      description: product_schema.description_schema.max(250),
+      price: product_schema.price_schema,
       status: z.enum(STATUS),
       created_at: z.string(),
       updated_at: z.string()
     }).optional(),
-    project: project_schema(
-      'name',
-      'description',
-      'price',
-      'created_at',
-      'updated_at',
-      'images',
-      'status',
-      '_id'
-    ).optional()
+    project: project_product_schema.optional()
   })
   .strict();

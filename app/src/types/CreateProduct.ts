@@ -16,7 +16,8 @@ export type RawProduct = CreateProductPayload & {
   images: [];
 };
 
-export type CreateProductArgs = AwsParams & {
+export type CreateProductArgs = {
   logger: FastifyBaseLogger;
+  aws_params: AwsParams;
   topic: string;
 };

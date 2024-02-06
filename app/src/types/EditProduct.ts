@@ -5,7 +5,8 @@ import { AwsParams } from './Aws';
 
 export type EditProductPayload = z.infer<typeof edit_product_schema>;
 
-export type EditProductArgs = AwsParams & {
+export type EditProductArgs = {
+  aws_params: AwsParams;
   logger: FastifyBaseLogger;
   topic: string;
 };

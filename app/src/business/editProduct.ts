@@ -14,10 +14,10 @@ export class EditProduct {
 
   constructor(
     private product_id: Product['_id'],
-    { logger, topic, region }: EditProductArgs
+    { logger, topic, aws_params }: EditProductArgs
   ) {
-    this.repository = new ProductsRepository({ region }, logger);
-    this.event_bus = new EventBus(logger, topic, { region });
+    this.repository = new ProductsRepository(aws_params, logger);
+    this.event_bus = new EventBus(logger, topic, aws_params);
   }
 
   async edit(payload: EditProductPayload): Promise<Product> {

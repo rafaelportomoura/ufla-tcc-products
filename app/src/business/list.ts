@@ -10,8 +10,11 @@ import { Product } from '../types/Product';
 export class ListProducts {
   private repository: ProductsRepository;
 
-  constructor({ aws_params, logger }: ListProductsArgs) {
+  private images_base_url: string;
+
+  constructor({ aws_params, logger, images_base_url }: ListProductsArgs) {
     this.repository = new ProductsRepository(aws_params, logger);
+    this.images_base_url = images_base_url;
   }
 
   async get(filter: ListProductsFilter): Promise<ListProductsResponse> {
@@ -30,12 +33,11 @@ export class ListProducts {
       page: filter.page,
       pages,
       count,
-      products
+      products: products.map((p) => this.repository.populateImagesBaseUrl(p, this.images_base_url))
     };
   }
 
   createQuery({ search }: ListProductsFilter): FilterQuery<Product> {
-    console.log(search);
     const query: FilterQuery<Product> = {};
 
     if (isEmpty(search)) return query;
@@ -45,7 +47,7 @@ export class ListProducts {
       for (const [operator, value] of Object.entries(filters)) {
         query[key] = {
           ...query[key],
-          ...OPERATORS_MAP_TO_MONGO[operator as keyof typeof OPERATORS_MAP_TO_MONGO](value)
+          ...OPERATORS_MAP_TO_MONGO[operator as keyof typeof OPERATORS_MAP_TO_MONGO](value as string)
         };
       }
     }

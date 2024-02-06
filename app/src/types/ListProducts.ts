@@ -8,6 +8,7 @@ import { Product } from './Product';
 export type ListProductsArgs = {
   aws_params: AwsParams;
   logger: FastifyBaseLogger;
+  images_base_url: string;
 };
 
 export type ListProductsResponse = {

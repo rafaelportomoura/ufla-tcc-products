@@ -1,4 +1,5 @@
 import { FastifyBaseLogger } from 'fastify';
+import { isEmpty } from 'lodash';
 import { FilterQuery, Model, ProjectionType, QueryOptions } from 'mongoose';
 import { STATUS_MAP } from '../constants/status';
 import { DocumentDatabase } from '../database/document';
@@ -74,6 +75,18 @@ export class ProductsRepository {
     return options.lean ? (product as Product) : product?.toObject();
   }
 
+  async addImage(_id: Product['_id'], image_id: Product['images'][number]): Promise<Product | null> {
+    await this.connect();
+    const response = await this.model.findByIdAndUpdate(_id, { $push: { images: image_id } }, { lean: true });
+    return response;
+  }
+
+  async removeImage(_id: Product['_id'], image_id: Product['images'][number]): Promise<Product | null> {
+    await this.connect();
+    const response = await this.model.findByIdAndUpdate(_id, { $pull: { images: { $eq: image_id } } }, { lean: true });
+    return response;
+  }
+
   alreadyExistFilter(name: Product['name']): FilterQuery<Product> {
     return {
       name,
@@ -93,5 +106,13 @@ export class ProductsRepository {
     return {
       _id: { $ne: id }
     };
+  }
+
+  populateImagesBaseUrl(product: Product, base_url: string): Product {
+    if (isEmpty(product.images)) return product;
+
+    product.images = product.images?.map((v) => [base_url, product._id, v].join('/'));
+
+    return product;
   }
 }

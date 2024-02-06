@@ -12,9 +12,9 @@ export class CreateProduct {
 
   private event_bus: EventBus;
 
-  constructor({ logger, topic, region }: CreateProductArgs) {
-    this.repository = new ProductsRepository({ region }, logger);
-    this.event_bus = new EventBus(logger, topic, { region });
+  constructor({ logger, topic, aws_params }: CreateProductArgs) {
+    this.repository = new ProductsRepository(aws_params, logger);
+    this.event_bus = new EventBus(logger, topic, aws_params);
   }
 
   async create(payload: CreateProductPayload): Promise<Product> {

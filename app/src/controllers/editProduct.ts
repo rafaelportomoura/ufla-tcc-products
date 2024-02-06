@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Validator } from '../adapters/validate';
+import { aws_params } from '../aws/config';
 import { EditProduct } from '../business/editProduct';
 import { CONFIGURATION } from '../constants/configuration';
 import { HTTP_STATUS_CODE } from '../constants/httpStatus';
@@ -14,7 +15,7 @@ export async function editProduct(req: FastifyRequest, res: FastifyReply): Promi
   const business = new EditProduct(product_id, {
     logger,
     topic: CONFIGURATION.EVENT_BUS,
-    region: CONFIGURATION.REGION
+    aws_params: aws_params()
   });
   await business.edit(body as EditProductPayload);
   res.status(HTTP_STATUS_CODE.NO_CONTENT).send();
