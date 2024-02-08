@@ -11,7 +11,6 @@ export const CONFIGURATION = {
   MICROSERVICE: set_string_env('MICROSERVICE', 'products'),
   LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', 'trace'),
   PORT: set_number_env('PORT', 3000),
-  GROUPS_TABLE: set_string_env('GROUPS_TABLE', 'table'),
   EVENT_BUS: set_string_env('EVENT_BUS', ''),
   DOCUMENT_SECRET: set_string_env('DOCUMENT_SECRET', ''),
   DOCUMENT_PARAMS: set_string_env('DOCUMENT_PARAMS', ''),

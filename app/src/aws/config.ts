@@ -1,7 +1,6 @@
-import { fromIni } from '@aws-sdk/credential-providers';
-import { CONFIGURATION } from '../constants/configuration';
+import { AWS_CONFIGURATION } from '../constants/aws';
 import { AwsParams } from '../types/Aws';
 
-export const aws_config = ({ region }: AwsParams) => ({ region, credentials: fromIni({ profile: 'tcc' }) });
+export const aws_config = ({ region, credentials }: AwsParams) => ({ region, credentials });
 
-export const aws_params = () => ({ region: CONFIGURATION.REGION });
+export const aws_params = () => AWS_CONFIGURATION;

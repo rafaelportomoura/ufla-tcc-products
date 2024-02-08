@@ -6,7 +6,9 @@ import qs from 'qs';
 import { aws_config } from '../aws/config';
 import { SecretsManager } from '../aws/secretsManager';
 import { SSM } from '../aws/ssm';
+import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
+import { DatabaseError } from '../exceptions/DatabaseError';
 import { AwsParams } from '../types/Aws';
 import { DocumentParams, DocumentSecret } from '../types/DocumentSecret';
 
@@ -50,13 +52,8 @@ export class DocumentDatabase {
         socketTimeoutMS: 360000
       });
     } catch (error) {
-      await mongoose.connect('mongodb://root:example@localhost:27017/', {
-        dbName: 'tcc',
-        serverSelectionTimeoutMS: 5000,
-        socketTimeoutMS: 360000
-      });
-      this.logger.error(error, 'DocumentDatabase');
-      // throw new DatabaseError(CODE_MESSAGES.CANNOT_ACCESS_DATABASE);
+      this.logger.error(error, 'DatabaseError');
+      throw new DatabaseError(CODE_MESSAGES.CANNOT_ACCESS_DATABASE);
     }
   }
 

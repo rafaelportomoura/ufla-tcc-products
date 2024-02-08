@@ -18,7 +18,7 @@ export class EventBus {
 
   async pub(body: unknown, message_attributes: EventBusMessageAttributes): Promise<void> {
     this.logger.debug('EventBus.publish(', body, message_attributes, ')');
-    if (body) return;
+
     const response = await this.sns.pub({
       TopicArn: this.topic,
       Message: JSON.stringify(body),
