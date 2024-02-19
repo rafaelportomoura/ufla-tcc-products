@@ -3,8 +3,8 @@ import { product_schema } from './product';
 
 export const edit_product_schema = z
   .object({
-    name: product_schema.name_schema.optional(),
-    description: product_schema.description_schema.optional(),
-    price: product_schema.price_schema.optional()
+    name: product_schema.name.optional(),
+    description: product_schema.description.optional(),
+    price: product_schema.price.optional()
   })
   .strict();

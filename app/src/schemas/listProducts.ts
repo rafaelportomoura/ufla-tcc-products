@@ -11,9 +11,10 @@ export const list_products_schema = z
     order: z.enum(ORDERS).default(ORDER_KEY.DESC),
     order_by: z.enum(ORDER_BY).default('created_at'),
     search: search_schema({
-      name: product_schema.name_schema.max(250),
-      description: product_schema.description_schema.max(250),
-      price: product_schema.price_schema,
+      _id: product_schema._id,
+      name: product_schema.name.max(250),
+      description: product_schema.description.max(250),
+      price: product_schema.price,
       status: z.enum(STATUS),
       created_at: z.string(),
       updated_at: z.string()
