@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { FilterQuery } from 'mongoose';
 import { CODE_MESSAGES } from '../constants/codeMessages';
-import { OPERATORS_MAP_TO_MONGO, ORDER } from '../constants/search';
+import { OPERATORS_MAP_TO_MONGO, SORT } from '../constants/search';
 import { BadRequestError } from '../exceptions/BadRequestError';
 import { ProductsRepository } from '../repositories/products';
 import { ListProductsArgs, ListProductsFilter, ListProductsOptions, ListProductsResponse } from '../types/ListProducts';
@@ -55,8 +55,8 @@ export class ListProducts {
     return query;
   }
 
-  createOptions({ order, order_by, page, size }: ListProductsFilter): ListProductsOptions {
-    const sort = { [order_by]: ORDER[order] };
+  createOptions({ sort: query_sort, sort_by, page, size }: ListProductsFilter): ListProductsOptions {
+    const sort = { [sort_by]: SORT[query_sort] };
     const limit = size;
     const skip = (page - 1) * size;
 

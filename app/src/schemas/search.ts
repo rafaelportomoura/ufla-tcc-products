@@ -25,10 +25,10 @@ const and = (...args: unknown[]) => args.reduce((p, v) => Boolean(p) && Boolean(
 const or = (...args: unknown[]) => args.reduce((p, v) => Boolean(p) || Boolean(v));
 
 const conflict_operator_check = (a: unknown, b: unknown) => {
-  const or_exclusive = xor(!isEmpty(a), !isEmpty(b));
-  const and_of_false = and(isEmpty(a), isEmpty(b));
-  const or_of = or(and_of_false, or_exclusive);
-  return or_of;
+  const just_a_or_just_b_is_filled = xor(!isEmpty(a), !isEmpty(b));
+  const a_and_b_is_empty = and(isEmpty(a), isEmpty(b));
+  const just_one_or_none = or(a_and_b_is_empty, just_a_or_just_b_is_filled);
+  return just_one_or_none;
 };
 
 export const search_schema = <T extends string, Y extends ZodTypeAny>(types: Record<T, Y>) => {

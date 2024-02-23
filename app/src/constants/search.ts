@@ -24,16 +24,16 @@ export const OPERATORS_MAP_TO_MONGO = {
   [OPERATOR.GTE]: (v: unknown) => ({ $gte: v })
 } as const;
 
-export const ORDER_BY = ['name', 'status', 'created_at', 'price'] as const;
+export const SORT_BY = ['name', 'status', 'created_at', 'price'] as const;
 
-export const ORDER_KEY = {
+export const SORT_KEY = {
   ASC: 'asc',
-  DESC: 'dec'
+  DESC: 'desc'
 } as const;
 
-export const ORDER = {
-  [ORDER_KEY.ASC]: 1,
-  [ORDER_KEY.DESC]: -1
+export const SORT = {
+  [SORT_KEY.ASC]: 1,
+  [SORT_KEY.DESC]: -1
 } as const;
 
-export const ORDERS = [ORDER_KEY.ASC, ORDER_KEY.DESC] as const;
+export const SORTS = [SORT_KEY.ASC, SORT_KEY.DESC] as const;
