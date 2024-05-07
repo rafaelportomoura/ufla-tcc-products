@@ -65,7 +65,7 @@ Resources:
                 Enabled: true
                 Comment: 'CDN para imagens de produtos'
                 ViewerCertificate:
-                     AcmCertificateArn: !Sub ${Stage}-${Tenant}-domain-certificate
+                     AcmCertificateArn: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-domain-certificate" }
                      SslSupportMethod: sni-only 
                 Origins:
                 - Id: S3Origin
