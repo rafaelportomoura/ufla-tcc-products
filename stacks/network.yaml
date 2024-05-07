@@ -40,8 +40,6 @@ Globals:
                 REGION: !Ref AWS::Region
                 ACCOUNT_NUMBER: !Ref AWS::AccountId
                 MICROSERVICE: !Ref Microservice
-                COGNITO_USER_POOL: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-user-pool-id"}
-                COGNITO_CLIENT_ID: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-user-pool-client"}
 
 Resources:
     # -----------------------------------------------
@@ -238,11 +236,11 @@ Resources:
         Type: AWS::ServiceDiscovery::Service
         Properties:
             Name: !Ref Microservice
-            NamespaceId: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-cloud-map-namespace-id"}
             DnsConfig:
                 DnsRecords:
                   - Type: A
                     TTL: 60
+                NamespaceId: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-cloud-map-namespace-id"}
                 RoutingPolicy: MULTIVALUE
 
     VirtualNode:
@@ -354,8 +352,6 @@ Resources:
             Environment:
                 Variables:
                     LOG_LEVEL: !Ref LogLevel
-                    COGNITO_USER_POOL: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-user-pool-id"}
-                    COGNITO_CLIENT_ID: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-user-pool-client"}
             Tracing: PassThrough
 
     LambdaLogGroup:
