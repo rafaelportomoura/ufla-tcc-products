@@ -10,6 +10,7 @@ def stack(
     stage: str,
     tenant: str,
     microservice: str,
+    hosted_zone_id: str,
     domain_name: str,
 ) -> Stack:
     return Stack(
@@ -19,6 +20,7 @@ def stack(
             "Stage": stage,
             "Tenant": tenant,
             "Microservice": microservice,
+            "HostedZoneId": hosted_zone_id,
             "DomainName": domain_name,
         },
     )
