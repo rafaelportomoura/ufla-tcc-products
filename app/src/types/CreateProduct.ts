@@ -1,8 +1,8 @@
-import { FastifyBaseLogger } from 'fastify';
 import { z } from 'zod';
+import { Logger } from '../adapters/logger';
 import { STATUS_MAP } from '../constants/status';
 import { create_product_schema } from '../schemas/createProduct';
-import { AwsParams } from './Aws';
+import { AwsConfig } from './Aws';
 import { CodeMessage } from './CodeMessage';
 
 export type CreateProductResponse = CodeMessage & {
@@ -17,7 +17,7 @@ export type RawProduct = CreateProductPayload & {
 };
 
 export type CreateProductArgs = {
-  logger: FastifyBaseLogger;
-  aws_params: AwsParams;
+  logger: Logger;
+  aws_params: AwsConfig;
   topic: string;
 };

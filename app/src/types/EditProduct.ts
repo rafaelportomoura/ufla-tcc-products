@@ -1,12 +1,12 @@
-import { FastifyBaseLogger } from 'fastify';
 import { z } from 'zod';
+import { Logger } from '../adapters/logger';
 import { edit_product_schema } from '../schemas/editProduct';
-import { AwsParams } from './Aws';
+import { AwsConfig } from './Aws';
 
 export type EditProductPayload = z.infer<typeof edit_product_schema>;
 
 export type EditProductArgs = {
-  aws_params: AwsParams;
-  logger: FastifyBaseLogger;
+  aws_params: AwsConfig;
+  logger: Logger;
   topic: string;
 };

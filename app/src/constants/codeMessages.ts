@@ -53,5 +53,13 @@ export const CODE_MESSAGES = {
   IMAGE_NOT_FOUND: {
     code: prefix(n++),
     message: 'Image not found!'
+  },
+  FORBIDDEN: {
+    code: prefix(n++),
+    message: "User can't access this resource!"
+  },
+  UNAUTHORIZED: {
+    code: prefix(n++),
+    message: 'Unauthorized!'
   }
 } as const;

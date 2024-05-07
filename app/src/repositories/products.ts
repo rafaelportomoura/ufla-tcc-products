@@ -1,10 +1,10 @@
-import { FastifyBaseLogger } from 'fastify';
 import { isEmpty } from 'lodash';
 import { FilterQuery, Model, ProjectionType, QueryOptions } from 'mongoose';
+import { Logger } from '../adapters/logger';
 import { STATUS_MAP } from '../constants/status';
 import { DocumentDatabase } from '../database/document';
 import { create_product_model } from '../entities/product';
-import { AwsParams } from '../types/Aws';
+import { AwsConfig } from '../types/Aws';
 import { RawProduct } from '../types/CreateProduct';
 import { EditProductPayload } from '../types/EditProduct';
 import { Product } from '../types/Product';
@@ -14,7 +14,7 @@ export class ProductsRepository {
 
   private document_database: DocumentDatabase;
 
-  constructor(aws: AwsParams, logger: FastifyBaseLogger) {
+  constructor(aws: AwsConfig, logger: Logger) {
     this.model = create_product_model();
     this.document_database = new DocumentDatabase(aws, logger);
   }

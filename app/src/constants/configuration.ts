@@ -1,4 +1,4 @@
-import { LoggerLevel } from '../types/Logger';
+import { LoggerLevel } from './loggerLevel';
 
 const set_env = <T = string>(key: string, default_value: T): T => (process.env[key] ?? default_value) as T;
 const set_number_env = (key: string, default_value: number) => Number(set_env(key, default_value));
@@ -9,11 +9,14 @@ export const CONFIGURATION = {
   TENANT: set_string_env('TENANT', 'tcc'),
   REGION: set_string_env('REGION', 'us-east-2'),
   MICROSERVICE: set_string_env('MICROSERVICE', 'products'),
-  LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', 'trace'),
+  LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', LoggerLevel.debug),
   PORT: set_number_env('PORT', 3000),
   EVENT_BUS: set_string_env('EVENT_BUS', ''),
   DOCUMENT_SECRET: set_string_env('DOCUMENT_SECRET', ''),
   DOCUMENT_PARAMS: set_string_env('DOCUMENT_PARAMS', ''),
   BUCKET_NAME: set_string_env('BUCKET_NAME', 'teste-tcc-rafael-moura'),
-  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images')
+  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images'),
+  COGNITO_CLIENT_ID: set_string_env('COGNITO_CLIENT_ID', ''),
+  COGNITO_USER_POLL: set_string_env('COGNITO_USER_POOL', ''),
+  COGNITO_SCOPE: set_string_env('COGNITO_SCOPE', 'aws.cognito.signin.user.admin')
 } as const;

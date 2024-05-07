@@ -1,13 +1,13 @@
-import { FastifyBaseLogger } from 'fastify';
 import { QueryOptions } from 'mongoose';
 import { z } from 'zod';
+import { Logger } from '../adapters/logger';
 import { list_products_schema } from '../schemas/listProducts';
-import { AwsParams } from './Aws';
+import { AwsConfig } from './Aws';
 import { Product } from './Product';
 
 export type ListProductsArgs = {
-  aws_params: AwsParams;
-  logger: FastifyBaseLogger;
+  aws_params: AwsConfig;
+  logger: Logger;
   images_base_url: string;
 };
 

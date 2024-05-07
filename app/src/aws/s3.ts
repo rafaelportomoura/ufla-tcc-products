@@ -1,13 +1,13 @@
 import { DeleteObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
-import { FastifyBaseLogger } from 'fastify';
+import { Logger } from '../adapters/logger';
 
 export class S3 {
   private client: S3Client;
 
   constructor(
     config: S3ClientConfig,
-    private logger: FastifyBaseLogger
+    private logger: Logger
   ) {
     this.client = new S3Client(config);
   }

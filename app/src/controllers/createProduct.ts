@@ -1,27 +1,40 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { StatusCodes } from 'http-status-codes';
+import { Logger } from '../adapters/logger';
 import { Validator } from '../adapters/validate';
-import { aws_params } from '../aws/config';
+import { aws_config } from '../aws/config';
 import { CreateProduct } from '../business/createProduct';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
-import { HTTP_STATUS_CODE } from '../constants/httpStatus';
+import { BaseError } from '../exceptions/BaseError';
+import { error_handler } from '../middlewares/error';
 import { create_product_schema } from '../schemas/createProduct';
 import { CreateProductPayload, CreateProductResponse } from '../types/CreateProduct';
+import { request_id } from '../utils/requestId';
 
-export async function createProduct(req: FastifyRequest, res: FastifyReply): Promise<CreateProductResponse> {
-  const logger = req.log;
-  const validator = new Validator(create_product_schema);
-  const body = await validator.validate(req.body);
-  const business = new CreateProduct({
-    logger,
-    topic: CONFIGURATION.EVENT_BUS,
-    aws_params: aws_params()
-  });
-  const { _id } = await business.create(body as CreateProductPayload);
-  const response = {
-    product_id: _id,
-    ...CODE_MESSAGES.CREATE_PRODUCT
-  };
-  res.status(HTTP_STATUS_CODE.CREATED);
-  return response;
+export async function createProduct(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<CreateProductResponse | BaseError> {
+  const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
+  try {
+    const validator = new Validator(create_product_schema);
+    const body = await validator.validate(req.body);
+    const business = new CreateProduct({
+      logger,
+      topic: CONFIGURATION.EVENT_BUS,
+      aws_params: aws_config()
+    });
+    const { _id } = await business.create(body as CreateProductPayload);
+    const response = {
+      product_id: _id,
+      ...CODE_MESSAGES.CREATE_PRODUCT
+    };
+    res.status(StatusCodes.CREATED);
+    return response;
+  } catch (error) {
+    const response = error_handler(logger, error, 'addImage');
+    res.status(response.status);
+    return response;
+  }
 }

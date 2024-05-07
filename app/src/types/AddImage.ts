@@ -1,9 +1,9 @@
-import { FastifyBaseLogger } from 'fastify';
-import { AwsParams } from './Aws';
+import { Logger } from '../adapters/logger';
+import { AwsConfig } from './Aws';
 
 export type AddImageArgs = {
-  aws_params: AwsParams;
-  logger: FastifyBaseLogger;
+  aws_params: AwsConfig;
+  logger: Logger;
   bucket: string;
 };
 
