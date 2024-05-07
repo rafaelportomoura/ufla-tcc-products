@@ -1,7 +1,7 @@
 from scripts.typescript import Typescript
 from scripts.cloudformation import CloudFormation
 from scripts.args import get_args
-from stacks import ecs, ecr, api, cognito
+from stacks import ecs, ecr, api, bucket
 from scripts.exception import DeployException
 from scripts.docker import Docker
 from scripts.ecs import ECS
@@ -38,6 +38,21 @@ log_level = args["log_level"]
 account_id = args["account_id"]
 
 cloudformation = CloudFormation(profile=profile, region=region, log_level=log_level)
+
+
+exports = cloudformation.list_exports()
+HOSTED_ZONE_ID = cloudformation.get_export_value(
+    exports, f"{stage}-{tenant}-hosted-zone-id"
+)
+DOMAIN_NAME = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-name")
+
+################################################
+# 🚀 IMAGES
+################################################
+IMAGES_STACK = bucket.stack(stage=stage, tenant=tenant, microservice=microservice, hosted_zone_id=HOSTED_ZONE_ID, domain_name=DOMAIN_NAME)
+cloudformation.deploy_stack(stack=IMAGES_STACK)
+if not cloudformation.stack_is_succesfully_deployed(stack_name=IMAGES_STACK["stack_name"]):
+    raise DeployException(stack=IMAGES_STACK)
 
 ################################################
 # 🚀 ECR
@@ -93,6 +108,7 @@ ECS_STACK = ecs.stack(
     scale_in_cooldown=args["scale_in_cooldown"],
     cpu_utilization=args["cpu_utilization"],
     target_group=target,
+    images_url=f"https://products-images.{DOMAIN_NAME}",
 )
 
 cloudformation.deploy_stack(stack=ECS_STACK)

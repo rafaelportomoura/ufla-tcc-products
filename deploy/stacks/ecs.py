@@ -17,6 +17,7 @@ def stack(
     scale_in_cooldown: int,
     cpu_utilization: int,
     target_group: str,
+    images_url: str
 ) -> Stack:
     return Stack(
         template=path("stacks", "ecs.yaml"),
@@ -32,5 +33,6 @@ def stack(
             "ScaleInCooldown": scale_in_cooldown,
             "CPUUtilization": cpu_utilization,
             "TargetGroupArn": target_group,
+            "ImagesUrl": images_url
         },
     )

@@ -218,7 +218,7 @@ Resources:
                   - Name: DOCUMENT_PARAMS
                     Value: !Sub ${Stage}-${Tenant}-document-db
                   - Name: BUCKET_NAME
-                    Value: !Sub ${Stage}-${Tenant}-images-bucket
+                    Value: !Sub ${Stage}-${Tenant}-${Microservice}-images
                   - Name: IMAGES_URL
                     Value: !Ref ImagesUrl
                 Image: !Sub 
