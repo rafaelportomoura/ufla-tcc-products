@@ -60,6 +60,8 @@ Resources:
         Type: AWS::CloudFront::Distribution
         Properties:
             DistributionConfig:
+                Aliases:
+                     - !Sub products-images.${DomainName}
                 Enabled: true
                 Comment: 'CDN para imagens de produtos'
                 Origins:
