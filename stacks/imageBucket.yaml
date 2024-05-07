@@ -103,6 +103,6 @@ Resources:
             Name: !Sub products-images.${DomainName}
             Type: A
             AliasTarget:
-                HostedZoneId: !GetAtt  CloudFrontDistribution.Id  # This is the zone ID for CloudFront
+                HostedZoneId: Z2FDTNDATAQYW2  # This is the zone ID for CloudFront
                 DNSName: !GetAtt CloudFrontDistribution.DomainName
                 EvaluateTargetHealth: false
