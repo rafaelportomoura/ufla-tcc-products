@@ -1,6 +1,5 @@
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { EVENT_STATUS, EVENT_TYPE } from '../constants/event';
-import { STATUS_MAP } from '../constants/status';
 import { ConflictError } from '../exceptions/ConflictError';
 import { ProductsRepository } from '../repositories/products';
 import { EventBus } from '../services/EventBus';
@@ -36,7 +35,6 @@ export class CreateProduct {
   generate(payload: CreateProductPayload): RawProduct {
     return {
       ...payload,
-      status: STATUS_MAP.UNAVAILABLE,
       images: []
     };
   }

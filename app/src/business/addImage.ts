@@ -27,11 +27,7 @@ export class AddImage {
   }
 
   async addImage(_id: Product['_id'], file: MultipartFile): Promise<string> {
-    const product = await this.repository.findOne(
-      { _id, ...this.repository.visibleStatusFilter() },
-      { _id: 1 },
-      { lean: true }
-    );
+    const product = await this.repository.findOne({ _id }, { _id: 1 }, { lean: true });
 
     if (!product) throw new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND);
 

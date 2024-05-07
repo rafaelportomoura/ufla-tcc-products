@@ -7,8 +7,7 @@ const product_schema = new Schema<Product>(
     name: { type: String, index: true },
     price: { type: Number, index: true },
     description: { type: String },
-    images: [String],
-    status: { type: String, index: true }
+    images: [String]
   },
   {
     timestamps: {

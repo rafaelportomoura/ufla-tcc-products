@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { SORTS, SORT_BY, SORT_KEY } from '../constants/search';
-import { STATUS } from '../constants/status';
 import { product_schema, project_product_schema } from './product';
 import { search_schema } from './search';
 
@@ -15,7 +14,6 @@ export const list_products_schema = z
       name: product_schema.name.max(250),
       description: product_schema.description.max(250),
       price: product_schema.price,
-      status: z.enum(STATUS),
       created_at: z.string(),
       updated_at: z.string()
     }).optional(),

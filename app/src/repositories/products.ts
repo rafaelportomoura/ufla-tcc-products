@@ -1,7 +1,6 @@
 import { isEmpty } from 'lodash';
 import { FilterQuery, Model, ProjectionType, QueryOptions } from 'mongoose';
 import { Logger } from '../adapters/logger';
-import { STATUS_MAP } from '../constants/status';
 import { DocumentDatabase } from '../database/document';
 import { create_product_model } from '../entities/product';
 import { AwsConfig } from '../types/Aws';
@@ -37,8 +36,7 @@ export class ProductsRepository {
     await this.connect();
     const response = await this.model.findOneAndUpdate(
       {
-        _id: product_id,
-        ...this.visibleStatusFilter()
+        _id: product_id
       },
       edit,
       { lean: true }
@@ -89,16 +87,7 @@ export class ProductsRepository {
 
   alreadyExistFilter(name: Product['name']): FilterQuery<Product> {
     return {
-      name,
-      ...this.visibleStatusFilter()
-    };
-  }
-
-  visibleStatusFilter(): FilterQuery<Product> {
-    return {
-      status: {
-        $in: [STATUS_MAP.AVAILABLE, STATUS_MAP.UNAVAILABLE]
-      }
+      name
     };
   }
 

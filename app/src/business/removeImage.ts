@@ -20,11 +20,7 @@ export class RemoveImage {
   }
 
   async remove(_id: Product['_id'], image_id: Product['images'][number]): Promise<void> {
-    const product = await this.repository.findOne(
-      { _id, ...this.repository.visibleStatusFilter() },
-      { _id: 1, images: 1 },
-      { lean: true }
-    );
+    const product = await this.repository.findOne({ _id }, { _id: 1, images: 1 }, { lean: true });
 
     if (!product) throw new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND);
 
