@@ -15,8 +15,5 @@ export const CONFIGURATION = {
   DOCUMENT_SECRET: set_string_env('DOCUMENT_SECRET', ''),
   DOCUMENT_PARAMS: set_string_env('DOCUMENT_PARAMS', ''),
   BUCKET_NAME: set_string_env('BUCKET_NAME', 'teste-tcc-rafael-moura'),
-  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images'),
-  COGNITO_CLIENT_ID: set_string_env('COGNITO_CLIENT_ID', ''),
-  COGNITO_USER_POLL: set_string_env('COGNITO_USER_POOL', ''),
-  COGNITO_SCOPE: set_string_env('COGNITO_SCOPE', 'aws.cognito.signin.user.admin')
+  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images')
 } as const;

@@ -41,6 +41,8 @@ Parameters:
     ImageTag: 
         Type: String
         Default: latest
+    ImagesUrl:
+        Type: String
     
 
 Conditions:
@@ -215,6 +217,10 @@ Resources:
                     Value: !Sub ${Stage}-${Tenant}-document-db
                   - Name: DOCUMENT_PARAMS
                     Value: !Sub ${Stage}-${Tenant}-document-db
+                  - Name: BUCKET_NAME
+                    Value: !Sub ${Stage}-${Tenant}-images-bucket
+                  - Name: IMAGES_URL
+                    Value: !Ref ImagesUrl
                 Image: !Sub 
                   - "${uri}:${tag}"
                   - uri: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-ecr-repository-uri"}
