@@ -8,8 +8,6 @@ Parameters:
         Type: String
     Microservice:
         Type: String
-    HostedZoneId:
-        Type: AWS::Route53::HostedZone::Id
     DomainName:
         Type: String
 
@@ -99,7 +97,7 @@ Resources:
     Route53RecordSet:
         Type: AWS::Route53::RecordSet
         Properties:
-            HostedZoneId: !Ref HostedZoneId
+            HostedZoneId: Z2FDTNDATAQYW2
             Name: !Sub products-images.${DomainName}
             Type: A
             AliasTarget:
