@@ -223,6 +223,8 @@ Resources:
                     Value: !Sub ${Stage}-${Tenant}-${Microservice}-images
                   - Name: IMAGES_URL
                     Value: !Ref ImagesUrl
+                  - Name: EVENT_BUS
+                    Value: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
                 Image: !Sub 
                   - "${uri}:${tag}"
                   - uri: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-ecr-repository-uri"}
