@@ -78,11 +78,6 @@ Resources:
                             Forward: none
                     Compress: true
                 PriceClass: PriceClass_100
-                CNAMEs:
-                     - !Sub products-images.${DomainName}
-                ViewerCertificate:
-                    AcmCertificateArn: !Ref CertificateArn
-                    SslSupportMethod: sni-only
             Tags:
               - Key: Service
                 Value: CloudFront
@@ -108,7 +103,7 @@ Resources:
         Properties:
             HostedZoneId: !Ref HostedZoneId
             Name: !Sub products-images.${DomainName}
-            Type: CNAME
+            Type: A
             AliasTarget:
                 HostedZoneId: Z2FDTNDATAQYW2  # This is the zone ID for CloudFront
                 DNSName: !GetAtt CloudFrontDistribution.DomainName
