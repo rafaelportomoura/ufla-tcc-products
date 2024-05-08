@@ -27,7 +27,7 @@ export async function listProducts(req: FastifyRequest, res: FastifyReply): Prom
     res.status(StatusCodes.OK);
     return response;
   } catch (error) {
-    const response = error_handler(logger, error, 'addImage');
+    const response = error_handler(logger, error, 'ListProduct');
     res.status(response.status);
     return response;
   }

@@ -33,7 +33,7 @@ export async function createProduct(
     res.status(StatusCodes.CREATED);
     return response;
   } catch (error) {
-    const response = error_handler(logger, error, 'addImage');
+    const response = error_handler(logger, error, 'CreateProduct');
     res.status(response.status);
     return response;
   }
