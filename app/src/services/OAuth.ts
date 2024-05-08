@@ -11,9 +11,9 @@ export class OAuthService {
     this.client = axios.create(config);
   }
 
-  async validateToken(access_token: string): Promise<ValidateToken> {
+  async validateToken(token: string): Promise<ValidateToken> {
     try {
-      const response = await this.client.post<ValidateToken>('/oauth/validate-token', { access_token });
+      const response = await this.client.post<ValidateToken>('/oauth/validate-token', { token });
       return response.data;
     } catch (error) {
       if ((error as AxiosError).response?.status === StatusCodes.UNAUTHORIZED)
