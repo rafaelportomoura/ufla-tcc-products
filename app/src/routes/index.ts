@@ -11,7 +11,7 @@ export function router(server: FastifyInstance, _: FastifyRegisterOptions<Fastif
   server.put('/:product_id', editProduct);
   server.get('/', listProducts);
   server.get('/:product_id', getProduct);
-  server.post('/:product_id/image', addImage);
   server.delete('/:product_id/image/:image_id', removeImage);
+  server.post('/:product_id/image', addImage);
   done();
 }

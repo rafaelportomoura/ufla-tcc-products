@@ -28,6 +28,7 @@ const options = {
 export async function addImage(req: FastifyRequest, res: FastifyReply): Promise<AddImageResponse | BaseError> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
+    logger.debug('AddImage', decodeObject(req.params));
     if (!req.isMultipart()) throw new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED);
     const data = await req.file(options);
     if (!data) throw new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED);
