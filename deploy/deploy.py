@@ -48,6 +48,12 @@ DOMAIN_NAME = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain
 CERTIFICATE_ARN = cloudformation.get_export_value(
     exports, f"{stage}-{tenant}-domain-certificate"
 )
+if region != "us-east-1":
+    us_east_1_cloudformation = CloudFormation(profile=profile, region="us-east-1", log_level=log_level)
+    exports = us_east_1_cloudformation.list_exports()
+    CERTIFICATE_ARN = us_east_1_cloudformation.get_export_value(
+        exports, f"{stage}-{tenant}-domain-certificate"
+    )
 
 ################################################
 # 🚀 IMAGES
