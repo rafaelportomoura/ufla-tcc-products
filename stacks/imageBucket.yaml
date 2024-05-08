@@ -10,8 +10,6 @@ Parameters:
         Type: String
     HostedZoneId:
         Type: AWS::Route53::HostedZone::Id
-    CertificateArn:
-        Type: String
     DomainName:
         Type: String
 
@@ -78,6 +76,8 @@ Resources:
                             Forward: none
                     Compress: true
                 PriceClass: PriceClass_100
+                Aliases:
+                     - !Sub products-images.${DomainName}
             Tags:
               - Key: Service
                 Value: CloudFront
