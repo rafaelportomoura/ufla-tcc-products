@@ -11,8 +11,7 @@ def stack(
     tenant: str,
     microservice: str,
     hosted_zone_id: str,
-    domain_name: str,
-    certificate_arn: str
+    domain_name: str
 ) -> Stack:
     return Stack(
         template=path("stacks", "imageBucket.yaml"),
@@ -22,7 +21,6 @@ def stack(
             "Tenant": tenant,
             "Microservice": microservice,
             "HostedZoneId": hosted_zone_id,
-            "DomainName": domain_name,
-            "CertificateArn": certificate_arn
+            "DomainName": domain_name
         },
     )
