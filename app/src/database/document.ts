@@ -52,7 +52,7 @@ export class DocumentDatabase {
         socketTimeoutMS: 360000
       });
     } catch (error) {
-      this.logger.error(error, 'DatabaseError');
+      this.logger.error('DatabaseError', error.message, error.code);
       throw new DatabaseError(CODE_MESSAGES.CANNOT_ACCESS_DATABASE);
     }
   }
