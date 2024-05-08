@@ -15,6 +15,7 @@ import { decodeObject } from '../utils/uriDecodeComponent';
 export async function removeImage(req: FastifyRequest, res: FastifyReply): Promise<void | BaseError> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
+    logger.debug('RemoveImage', decodeObject(req.params));
     const path_validator = new Validator(remove_image_path_schema);
     const { product_id, image_id } = await path_validator.validate(decodeObject(req.params));
     const remove_image_business = new RemoveImage({
@@ -26,7 +27,7 @@ export async function removeImage(req: FastifyRequest, res: FastifyReply): Promi
     res.status(StatusCodes.NO_CONTENT);
     return res.send();
   } catch (error) {
-    const response = error_handler(logger, error, 'addImage');
+    const response = error_handler(logger, error, 'RemoveImage');
     res.status(response.status);
     return response;
   }
