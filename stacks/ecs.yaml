@@ -100,6 +100,9 @@ Resources:
                           - secretsmanager:GetSecretValue
                           - sqs:ReceiveMessage
                           - sqs:SendMessage
+                          - s3:GetObject
+                          - s3:PutObject
+                          - s3:DeleteObject
                         Resource: "*"
             Tags:
               - Key: Service
