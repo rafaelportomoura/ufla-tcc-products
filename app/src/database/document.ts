@@ -45,7 +45,6 @@ export class DocumentDatabase {
       const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
       const uri = `${protocol}://${username}:${encodeURIComponent(password)}@${host}${query}`;
-      this.logger.debug('MongoUri', uri);
       await mongoose.connect(uri, {
         dbName: CONFIGURATION.MICROSERVICE,
         serverSelectionTimeoutMS: 5000,
