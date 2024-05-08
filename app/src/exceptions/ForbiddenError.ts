@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { BaseError } from './BaseError';

@@ -209,6 +209,8 @@ Resources:
                     Value: !Ref AWS::Region
                   - Name: TENANT
                     Value: !Ref Tenant
+                  - Name: PORT
+                    Value: 80
                   - Name: LOG_LEVEL
                     Value: !Ref LogLevel
                   - Name: MICROSERVICE
