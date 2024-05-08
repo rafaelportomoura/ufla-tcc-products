@@ -44,7 +44,7 @@ export class DocumentDatabase {
 
       const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
-      const uri = encodeURI(`${protocol}://${username}:${password}@${host}${query}`);
+      const uri = `${protocol}://${username}:${encodeURIComponent(password)}@${host}${query}`;
 
       await mongoose.connect(uri, {
         dbName: database,
