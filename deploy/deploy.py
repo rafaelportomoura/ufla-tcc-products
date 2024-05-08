@@ -45,11 +45,14 @@ HOSTED_ZONE_ID = cloudformation.get_export_value(
     exports, f"{stage}-{tenant}-hosted-zone-id"
 )
 DOMAIN_NAME = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-name")
+CERTIFICATE_ARN = cloudformation.get_export_value(
+    exports, f"{stage}-{tenant}-domain-certificate"
+)
 
 ################################################
 # 🚀 IMAGES
 ################################################
-IMAGES_STACK = bucket.stack(stage=stage, tenant=tenant, microservice=microservice, hosted_zone_id=HOSTED_ZONE_ID, domain_name=DOMAIN_NAME)
+IMAGES_STACK = bucket.stack(stage=stage, tenant=tenant, microservice=microservice, hosted_zone_id=HOSTED_ZONE_ID, domain_name=DOMAIN_NAME, certificate_arn=CERTIFICATE_ARN)
 cloudformation.deploy_stack(stack=IMAGES_STACK)
 if not cloudformation.stack_is_succesfully_deployed(stack_name=IMAGES_STACK["stack_name"]):
     raise DeployException(stack=IMAGES_STACK)
