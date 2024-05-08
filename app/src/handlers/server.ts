@@ -16,8 +16,7 @@ const server = Fastify({
 server.register(qs, {});
 server.register(FastifyCors, {
   origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 });
 server.register(multipart);
 
