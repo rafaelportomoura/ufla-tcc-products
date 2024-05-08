@@ -51,6 +51,7 @@
     "jest": true
   },
   "rules": {
+    "lines-between-class-members": "off",
     "prettier/prettier": "error",
     "snakecasejs/snakecasejs": "error",
     "camelcase": "off",
