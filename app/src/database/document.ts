@@ -40,17 +40,18 @@ export class DocumentDatabase {
       }
 
       const { password, username } = secrets;
-      const { protocol, host, database = CONFIGURATION.MICROSERVICE, options } = params;
+      const { protocol, host, options } = params;
 
       const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
       const uri = `${protocol}://${username}:${encodeURIComponent(password)}@${host}${query}`;
-
+      this.logger.debug('MongoUri', uri);
       await mongoose.connect(uri, {
-        dbName: database,
+        dbName: CONFIGURATION.MICROSERVICE,
         serverSelectionTimeoutMS: 5000,
         socketTimeoutMS: 360000
       });
+      this.logger.debug('Mongo Connected');
     } catch (error) {
       this.logger.error('DatabaseError', error.message, error.code);
       throw new DatabaseError(CODE_MESSAGES.CANNOT_ACCESS_DATABASE);
