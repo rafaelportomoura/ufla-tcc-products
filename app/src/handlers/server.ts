@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import FastifyCors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import Fastify from 'fastify';
 import qs from 'fastify-qs';
@@ -14,10 +13,6 @@ const server = Fastify({
   }
 });
 server.register(qs, {});
-server.register(FastifyCors, {
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-});
 server.register(multipart);
 
 server.get('/health-check', (_, res) => res.status(StatusCodes.OK).send('alive'));
