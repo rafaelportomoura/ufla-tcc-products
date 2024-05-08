@@ -60,13 +60,8 @@ Resources:
         Type: AWS::CloudFront::Distribution
         Properties:
             DistributionConfig:
-                Aliases:
-                     - !Sub products-images.${DomainName}
                 Enabled: true
                 Comment: 'CDN para imagens de produtos'
-                ViewerCertificate:
-                     AcmCertificateArn: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-domain-certificate" }
-                     SslSupportMethod: sni-only 
                 Origins:
                 - Id: S3Origin
                   DomainName: !GetAtt S3Bucket.RegionalDomainName
