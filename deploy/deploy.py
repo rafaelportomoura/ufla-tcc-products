@@ -108,7 +108,7 @@ ECS_STACK = ecs.stack(
     scale_in_cooldown=args["scale_in_cooldown"],
     cpu_utilization=args["cpu_utilization"],
     target_group=target,
-    images_url=f"https://products-images.{DOMAIN_NAME}",
+    images_url=f"https://{microservice}-images.{DOMAIN_NAME}",
 )
 
 cloudformation.deploy_stack(stack=ECS_STACK)
