@@ -40,10 +40,10 @@ export class AddImage {
     if (!ALLOWED_MIMETYPES.includes(file.mimetype))
       throw new UnsupportedMediaTypeError(CODE_MESSAGES.UNSUPPORTED_IMAGES_TYPE);
 
-    const image_id = `${createId()}.webp`;
+    const image_id = `${createId()}.png`;
 
     const buffer = await sharp(await file.toBuffer())
-      .webp()
+      .png()
       .toBuffer();
 
     await this.s3.upload(this.bucket, `${_id}/${image_id}`, buffer);
