@@ -3,7 +3,7 @@ FROM node:20-alpine3.18
 ADD ["./package.json", "package.json"]
 ADD ["./tsconfig.json", "tsconfig.json"]
 ADD ["./dist", "dist"]
-
+RUN sed -i '/"prepare": "husky install",/d' package.json
 RUN npm install -g pnpm --loglevel=error
 RUN pnpm install --prod --loglevel=error
 RUN find ./node_modules -mtime +10950 -exec touch {} +
