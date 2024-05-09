@@ -1,10 +1,8 @@
 from scripts.typescript import Typescript
 from scripts.cloudformation import CloudFormation
 from scripts.args import get_args
-from stacks import ecs, ecr, network
+from stacks import network
 from scripts.exception import DeployException
-from scripts.docker import Docker
-from scripts.ecs import ECS
 
 args = get_args(
     {
