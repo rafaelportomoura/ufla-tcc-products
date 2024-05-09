@@ -41,6 +41,10 @@ exports = cloudformation.list_exports()
 listener_arn = cloudformation.get_export_value(exports=exports, name=f"{stage}-{tenant}-application-load-balancer-listener-arn")
 
 CERTIFICATE_ARN = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-certificate")
+HOSTED_ZONE_ID = cloudformation.get_export_value(
+    exports, f"{stage}-{tenant}-hosted-zone-id"
+)
+DOMAIN_NAME = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-name")
 
 NETWORK_STACK = network.stack(
     stage=stage,
@@ -49,6 +53,9 @@ NETWORK_STACK = network.stack(
     listener_arn=listener_arn,
     authorizer_result_ttl_in_seconds=args["authorizer_result_ttl_in_seconds"],
     log_level=args["log_level_compute"],
+    certificate_arn=CERTIFICATE_ARN,
+    hosted_zone=HOSTED_ZONE_ID,
+    domain_name=DOMAIN_NAME,
 )
 
 typescript.build()
