@@ -38,7 +38,7 @@ cloudformation.deploy_stack(stack=ECR_STACK)
 if not cloudformation.stack_is_succesfully_deployed(stack_name=ECR_STACK["stack_name"]):
     raise DeployException(stack=ECR_STACK)
 
-ecr_uri = Docker.ecr_uri(account_id=account_id, region=region)
+ecr_uri = docker.ecr_uri(account_id=account_id, region=region)
 typescript.build()
 image=f"{stage}-{tenant}-{microservice}"
 docker.build_and_push(ecr_uri=ecr_uri,region=region, image=image, tag="latest")
