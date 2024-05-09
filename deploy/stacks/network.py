@@ -15,7 +15,7 @@ def stack(
     log_level: str,
     domain_name: str,
     hosted_zone: str,
-    cerfificate:str
+    certificate:str
 ) -> Stack:
     return Stack(
         template=path("stacks", "network.yaml"),
@@ -29,6 +29,6 @@ def stack(
             "LogLevel": log_level,
             "DomainName": domain_name,
             "HostedZone": hosted_zone,
-            "Certificate": cerfificate
+            "Certificate": certificate
         }
     )
