@@ -1,6 +1,7 @@
 import { DeleteObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { Logger } from '../adapters/logger';
+import { CONFIGURATION } from '../constants/configuration';
 
 export class S3 {
   private client: S3Client;
@@ -17,7 +18,7 @@ export class S3 {
       client: this.client,
       params: {
         Bucket: bucket,
-        Key: key,
+        Key: `${CONFIGURATION.MICROSERVICE}/${key}`,
         Body: body
       }
     });
@@ -30,7 +31,7 @@ export class S3 {
   async remove(bucket: string, key: string): Promise<void> {
     const command = new DeleteObjectCommand({
       Bucket: bucket,
-      Key: key
+      Key: `${CONFIGURATION.MICROSERVICE}/${key}`
     });
     const response = await this.client.send(command);
     this.logger.debug(response);

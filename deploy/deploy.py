@@ -39,31 +39,6 @@ account_id = args["account_id"]
 
 cloudformation = CloudFormation(profile=profile, region=region, log_level=log_level)
 
-
-exports = cloudformation.list_exports()
-HOSTED_ZONE_ID = cloudformation.get_export_value(
-    exports, f"{stage}-{tenant}-hosted-zone-id"
-)
-DOMAIN_NAME = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-name")
-
-CERTIFICATE_ARN = cloudformation.get_export_value(
-    exports, f"{stage}-{tenant}-domain-certificate"
-) if region == "us-east-1" else None
-if region != "us-east-1":
-    us_east_1_cloudformation = CloudFormation(profile=profile, region="us-east-1", log_level=log_level)
-    exports = us_east_1_cloudformation.list_exports()
-    CERTIFICATE_ARN = us_east_1_cloudformation.get_export_value(
-        exports, f"{stage}-{tenant}-domain-certificate"
-    )
-
-################################################
-# 🚀 IMAGES
-################################################
-IMAGES_STACK = bucket.stack(stage=stage, tenant=tenant, microservice=microservice, hosted_zone_id=HOSTED_ZONE_ID, domain_name=DOMAIN_NAME, certificate_arn=CERTIFICATE_ARN)
-cloudformation.deploy_stack(stack=IMAGES_STACK)
-if not cloudformation.stack_is_succesfully_deployed(stack_name=IMAGES_STACK["stack_name"]):
-    raise DeployException(stack=IMAGES_STACK)
-
 ################################################
 # 🚀 ECR
 ################################################
@@ -106,6 +81,12 @@ exports = cloudformation.list_exports()
 target = cloudformation.get_export_value(
     exports=exports, name=f"{stage}-{tenant}-{microservice}-target-group-arn"
 )
+IMAGES_DOMAIN_NAME = cloudformation.get_export_value(
+    exports=exports, name=f"{stage}-{tenant}-images-domain-name"
+)
+IMAGES_BUCKET = cloudformation.get_export_value(
+    exports=exports, name=f"{stage}-{tenant}-images-bucket"
+)
 
 ECS_STACK = ecs.stack(
     stage=stage,
@@ -118,7 +99,8 @@ ECS_STACK = ecs.stack(
     scale_in_cooldown=args["scale_in_cooldown"],
     cpu_utilization=args["cpu_utilization"],
     target_group=target,
-    images_url=f"https://{microservice}-images.{DOMAIN_NAME}",
+    images_url=IMAGES_DOMAIN_NAME,
+    images_bucket=IMAGES_BUCKET
 )
 
 cloudformation.deploy_stack(stack=ECS_STACK)

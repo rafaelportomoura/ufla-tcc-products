@@ -1,6 +1,7 @@
 import { isEmpty } from 'lodash';
 import { FilterQuery, Model, ProjectionType, QueryOptions } from 'mongoose';
 import { Logger } from '../adapters/logger';
+import { CONFIGURATION } from '../constants/configuration';
 import { DocumentDatabase } from '../database/document';
 import { create_product_model } from '../entities/product';
 import { AwsConfig } from '../types/Aws';
@@ -100,7 +101,7 @@ export class ProductsRepository {
   populateImagesBaseUrl(product: Product, base_url: string): Product {
     if (isEmpty(product.images)) return product;
 
-    product.images = product.images?.map((v) => [base_url, product._id, v].join('/'));
+    product.images = product.images?.map((v) => [base_url, CONFIGURATION.MICROSERVICE, product._id, v].join('/'));
 
     return product;
   }

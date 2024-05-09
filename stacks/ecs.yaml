@@ -43,6 +43,8 @@ Parameters:
         Default: latest
     ImagesUrl:
         Type: String
+    ImagesBucket:
+        Type: String  
     
 
 Conditions:
@@ -224,7 +226,7 @@ Resources:
                   - Name: DOCUMENT_PARAMS
                     Value: !Sub ${Stage}-${Tenant}-document-db
                   - Name: BUCKET_NAME
-                    Value: !Sub ${Stage}-${Tenant}-${Microservice}-images
+                    Value: !Ref ImagesBucket
                   - Name: IMAGES_URL
                     Value: !Ref ImagesUrl
                   - Name: EVENT_BUS

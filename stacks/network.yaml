@@ -284,7 +284,7 @@ Resources:
       Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
       Properties:
         ListenerArn: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-application-load-balancer-listener-arn"}
-        Priority: 101
+        Priority: 110
         Actions:
           - Type: forward
             TargetGroupArn: !Ref TargetGroup
