@@ -40,19 +40,7 @@ typescript = Typescript(log_level=log_level)
 exports = cloudformation.list_exports()
 listener_arn = cloudformation.get_export_value(exports=exports, name=f"{stage}-{tenant}-application-load-balancer-listener-arn")
 
-CERTIFICATE_ARN = (
-    cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-certificate")
-    if region == "us-east-1"
-    else None
-)
-if region != "us-east-1":
-    us_east_1_cloudformation = CloudFormation(
-        profile=profile, region="us-east-1", log_level=log_level
-    )
-    exports = us_east_1_cloudformation.list_exports()
-    CERTIFICATE_ARN = us_east_1_cloudformation.get_export_value(
-        exports, f"{stage}-{tenant}-domain-certificate"
-    )
+CERTIFICATE_ARN = cloudformation.get_export_value(exports, f"{stage}-{tenant}-domain-certificate")
 
 NETWORK_STACK = network.stack(
     stage=stage,
