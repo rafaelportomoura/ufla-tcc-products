@@ -99,7 +99,7 @@ ECS_STACK = ecs.stack(
     scale_in_cooldown=args["scale_in_cooldown"],
     cpu_utilization=args["cpu_utilization"],
     target_group=target,
-    images_url=IMAGES_DOMAIN_NAME,
+    images_url=f"https://{IMAGES_DOMAIN_NAME}",
     images_bucket=IMAGES_BUCKET
 )
 
