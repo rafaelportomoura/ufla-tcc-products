@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import multipart from '@fastify/multipart';
 import Fastify from 'fastify';
@@ -9,12 +10,11 @@ import { router } from '../routes';
 
 (async () => {
   const server = Fastify({
-    logger: {
-      level: 'silent'
-    }
+    logger: true
   });
   await server.register(qs, {});
   await server.register(multipart);
+  server.addContentTypeParser('application/x-www-form-urlencoded', { parseAs: 'string' }, (_, __, done) => done(null));
 
   server.get('/health-check', (_, res) => res.status(StatusCodes.OK).send('alive'));
 
