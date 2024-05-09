@@ -29,7 +29,6 @@ tenant = args["tenant"]
 region = args["region"]
 profile = args["profile"]
 log_level = args["log_level"]
-account_id = args["account_id"]
 
 cloudformation = CloudFormation(profile=profile, region=region, log_level=log_level)
 typescript = Typescript(log_level=log_level)
