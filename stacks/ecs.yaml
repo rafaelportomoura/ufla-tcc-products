@@ -202,6 +202,7 @@ Resources:
     TaskDefinition:
         Type: AWS::ECS::TaskDefinition
         Properties:
+            Family: !Sub ${Stage}-${Tenant}-${Microservice}
             ContainerDefinitions:
               - Name: !Sub ${Stage}-${Tenant}-${Microservice}-http
                 PortMappings:
