@@ -8,8 +8,6 @@ Parameters:
         Type: String
     Microservice:
         Type: String
-    ApiBasePath:
-        Type: String
     ListenerArn:
         Type: String
     AuthorizerResultTtlInSeconds:
@@ -26,6 +24,13 @@ Parameters:
           - info
           - verbose
           - debug
+    DomainName:
+        Type: String
+    HostedZone:
+        Type: AWS::Route53::HostedZone::Id
+    Certificate:
+        Type: String
+
 Conditions:
     isProd: !Equals [!Ref Stage, prod]
 
@@ -151,12 +156,40 @@ Resources:
                 Stage: !Ref Stage
                 Tenant: !Ref Tenant
 
+    APIGatewayCustomDomain:
+        Type: AWS::ApiGatewayV2::DomainName
+        Properties:
+            DomainName: !Sub api.${Microservice}.${DomainName}
+            DomainNameConfigurations:
+              - SecurityPolicy: TLS_1_2
+                CertificateArn: !Ref Certificate
+                EndpointType: REGIONAL
+            Tags:
+                Service: ApiGatewayV2
+                Resource: DomainName
+                Name: !Sub ${Stage}-${Tenant}-api-gateway-domain-name
+                Stage: !Ref Stage
+                Tenant: !Ref Tenant
+                StackName: !Ref AWS::StackName
+                StackId: !Ref AWS::StackId
+                Region: !Ref AWS::Region
+
+    DNSRecordAPIs:
+        Type: AWS::Route53::RecordSet
+        Properties:
+            HostedZoneId: !Ref HostedZone
+            Name: !Sub api.${Microservice}.${DomainName}
+            AliasTarget:
+                DNSName: !GetAtt APIGatewayCustomDomain.RegionalDomainName
+                EvaluateTargetHealth: false
+                HostedZoneId: !GetAtt APIGatewayCustomDomain.RegionalHostedZoneId
+            Type: A
+
     ApiMapping:
         Type: AWS::ApiGatewayV2::ApiMapping
         Properties:
             ApiId: !Ref Api
-            ApiMappingKey: !Ref ApiBasePath
-            DomainName: {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-api-gateway-domain-name"}
+            DomainName: !Ref APIGatewayCustomDomain
             Stage: !Ref ApiStage
 
     ApiStage:
@@ -456,3 +489,9 @@ Outputs:
         Value: !GetAtt CloudMapService.Arn
         Export:
             Name: !Sub ${Stage}-${Tenant}-${Microservice}-cloud-map-service-arn
+
+    ApiCustomDomainNameArn:
+        Description: "Custom Domain Name arn"
+        Value: !Ref APIGatewayCustomDomain
+        Export:
+            Name: !Sub ${Stage}-${Tenant}-${Microservice}-api-gateway-domain-name
