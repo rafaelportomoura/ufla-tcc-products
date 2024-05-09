@@ -167,7 +167,7 @@ Resources:
             Tags:
                 Service: ApiGatewayV2
                 Resource: DomainName
-                Name: !Sub ${Stage}-${Tenant}-api-gateway-domain-name
+                Name: !Sub ${Stage}-${Tenant}-${Microservice}-api-gateway-domain-name
                 Stage: !Ref Stage
                 Tenant: !Ref Tenant
                 StackName: !Ref AWS::StackName
