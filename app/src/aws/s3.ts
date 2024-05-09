@@ -1,5 +1,4 @@
-import { DeleteObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
-import { Upload } from '@aws-sdk/lib-storage';
+import { DeleteObjectCommand, PutObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { Logger } from '../adapters/logger';
 
 export class S3 {
@@ -13,18 +12,13 @@ export class S3 {
   }
 
   async upload(bucket: string, key: string, body: Buffer): Promise<void> {
-    const command = new Upload({
-      client: this.client,
-      params: {
-        Bucket: bucket,
-        Key: key,
-        Body: body
-      }
+    const command = new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: body
     });
 
-    command.on('httpUploadProgress', (progress) => this.logger.debug(progress));
-
-    await command.done();
+    await this.client.send(command);
   }
 
   async remove(bucket: string, key: string): Promise<void> {
