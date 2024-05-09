@@ -53,7 +53,7 @@ NETWORK_STACK = network.stack(
     listener_arn=listener_arn,
     authorizer_result_ttl_in_seconds=args["authorizer_result_ttl_in_seconds"],
     log_level=args["log_level_compute"],
-    certificate_arn=CERTIFICATE_ARN,
+    certificate=CERTIFICATE_ARN,
     hosted_zone=HOSTED_ZONE_ID,
     domain_name=DOMAIN_NAME,
 )
