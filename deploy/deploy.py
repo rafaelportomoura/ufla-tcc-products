@@ -1,7 +1,7 @@
 from scripts.typescript import Typescript
 from scripts.cloudformation import CloudFormation
 from scripts.args import get_args
-from stacks import ecs, ecr, api, bucket
+from stacks import ecs, ecr, api
 from scripts.exception import DeployException
 from scripts.docker import Docker
 from scripts.ecs import ECS
