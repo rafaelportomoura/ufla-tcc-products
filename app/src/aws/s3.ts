@@ -15,7 +15,8 @@ export class S3 {
     const command = new PutObjectCommand({
       Bucket: bucket,
       Key: key,
-      Body: body
+      Body: body,
+      ContentType: 'image/png'
     });
 
     await this.client.send(command);
