@@ -11,7 +11,9 @@ import { router } from '../routes';
 
 (async () => {
   const server = Fastify({
-    logger: false
+    logger: {
+      level: 'silent'
+    }
   });
   await server.register(qs, {});
   await server.register(multipart);
