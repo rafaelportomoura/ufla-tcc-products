@@ -17,8 +17,9 @@ def stack(
     scale_in_cooldown: int,
     cpu_utilization: int,
     target_group: str,
-    images_url: str
-) -> Stack:
+    images_url: str,
+    images_bucket: str
+    ) -> Stack:
     return Stack(
         template=path("stacks", "ecs.yaml"),
         stack_name=my_stack_name(stage, tenant),
@@ -33,6 +34,7 @@ def stack(
             "ScaleInCooldown": scale_in_cooldown,
             "CPUUtilization": cpu_utilization,
             "TargetGroupArn": target_group,
-            "ImagesUrl": images_url
+            "ImagesUrl": images_url,
+            "ImagesBucket": images_bucket
         },
     )

@@ -1,4 +1,3 @@
-import '@fastify/multipart';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import { Logger } from '../adapters/logger';
