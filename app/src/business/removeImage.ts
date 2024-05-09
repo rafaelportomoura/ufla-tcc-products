@@ -18,6 +18,7 @@ export class RemoveImage {
     this.repository = new ProductsRepository(aws_params, logger);
     this.s3 = new S3(aws_config(aws_params), logger);
     this.bucket = bucket;
+    this.logger = logger;
   }
 
   async remove(_id: Product['_id'], image_id: Product['images'][number]): Promise<void> {
