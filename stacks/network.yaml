@@ -159,7 +159,7 @@ Resources:
     APIGatewayCustomDomain:
         Type: AWS::ApiGatewayV2::DomainName
         Properties:
-            DomainName: !Sub api.${Microservice}.${DomainName}
+            DomainName: !Sub ${Microservice}-api.${DomainName}
             DomainNameConfigurations:
               - SecurityPolicy: TLS_1_2
                 CertificateArn: !Ref Certificate
@@ -178,7 +178,7 @@ Resources:
         Type: AWS::Route53::RecordSet
         Properties:
             HostedZoneId: !Ref HostedZone
-            Name: !Sub api.${Microservice}.${DomainName}
+            Name: !Sub ${Microservice}-api.${DomainName}
             AliasTarget:
                 DNSName: !GetAtt APIGatewayCustomDomain.RegionalDomainName
                 EvaluateTargetHealth: false
