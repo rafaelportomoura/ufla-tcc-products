@@ -12,6 +12,7 @@ import { UnsupportedMediaTypeError } from '../exceptions/UnsupportedMediaType';
 import { ProductsRepository } from '../repositories/products';
 import { AddImageArgs } from '../types/AddImage';
 import { Product } from '../types/Product';
+import { CONFIGURATION } from '../constants/configuration';
 
 export class AddImage {
   private repository: ProductsRepository;
@@ -46,7 +47,7 @@ export class AddImage {
       .png()
       .toBuffer();
 
-    await this.s3.upload(this.bucket, `${_id}/${image_id}`, buffer);
+    await this.s3.upload(this.bucket, `${CONFIGURATION.MICROSERVICE}/${_id}/${image_id}`, buffer);
 
     await this.repository.addImage(_id, image_id);
 

@@ -2,6 +2,7 @@ import { Logger } from '../adapters/logger';
 import { aws_config } from '../aws/config';
 import { S3 } from '../aws/s3';
 import { CODE_MESSAGES } from '../constants/codeMessages';
+import { CONFIGURATION } from '../constants/configuration';
 import { NotFoundError } from '../exceptions/NotFoundError';
 import { ProductsRepository } from '../repositories/products';
 import { Product } from '../types/Product';
@@ -26,7 +27,7 @@ export class RemoveImage {
     this.logger.debug('Product Found');
     if (!product.images?.includes(image_id)) throw new NotFoundError(CODE_MESSAGES.IMAGE_NOT_FOUND);
     this.logger.debug('Image Found');
-    await this.s3.remove(this.bucket, `${_id}/${image_id}`);
+    await this.s3.remove(this.bucket, `${CONFIGURATION.MICROSERVICE}/${_id}/${image_id}`);
     this.logger.debug('Image Removed');
     await this.repository.removeImage(_id, image_id);
     this.logger.debug('Image Removed from Product');
