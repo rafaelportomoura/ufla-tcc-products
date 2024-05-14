@@ -9,11 +9,12 @@ export const CONFIGURATION = {
   TENANT: set_string_env('TENANT', 'tcc'),
   REGION: set_string_env('REGION', 'us-east-2'),
   MICROSERVICE: set_string_env('MICROSERVICE', 'products'),
-  LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', LoggerLevel.debug),
+  LOG_LEVEL: set_env<LoggerLevel>('LOG_LEVEL', LoggerLevel.silent),
   PORT: set_number_env('PORT', 3000),
   EVENT_BUS: set_string_env('EVENT_BUS', ''),
   DOCUMENT_SECRET: set_string_env('DOCUMENT_SECRET', ''),
   DOCUMENT_PARAMS: set_string_env('DOCUMENT_PARAMS', ''),
   BUCKET_NAME: set_string_env('BUCKET_NAME', 'teste-tcc-rafael-moura'),
-  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images')
+  IMAGES_URL: set_string_env('IMAGES_URL', 'https://images'),
+  OAUTH_URL: set_string_env('OAUTH_URL', 'http://oauth')
 } as const;

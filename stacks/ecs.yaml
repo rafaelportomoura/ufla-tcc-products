@@ -18,6 +18,7 @@ Parameters:
           - info
           - verbose
           - debug
+          - silent
     MinContainers:
         Type: Number
         Description: Min containers to scale to
@@ -232,6 +233,8 @@ Resources:
                     Value: !Ref ImagesUrl
                   - Name: EVENT_BUS
                     Value: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
+                  - Name: OAUTH_URL
+                    Value: !Sub http://oauth.${Stage}-${Tenant}.local
                 Image: !Sub 
                   - "${uri}:${tag}"
                   - uri: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-ecr-repository-uri"}

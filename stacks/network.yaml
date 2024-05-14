@@ -24,6 +24,7 @@ Parameters:
           - info
           - verbose
           - debug
+          - silent
     DomainName:
         Type: String
     HostedZone:
@@ -45,6 +46,7 @@ Globals:
                 REGION: !Ref AWS::Region
                 ACCOUNT_NUMBER: !Ref AWS::AccountId
                 MICROSERVICE: !Ref Microservice
+                OAUTH_URL: !Sub http://oauth.${Stage}-${Tenant}.local
 
 Resources:
     # -----------------------------------------------
