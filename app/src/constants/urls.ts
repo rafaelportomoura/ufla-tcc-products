@@ -1,6 +1,6 @@
 import { CONFIGURATION } from './configuration';
 
-export const URLS = ({ TENANT, STAGE }: typeof CONFIGURATION) =>
+export const URLS = ({ OAUTH_URL }: typeof CONFIGURATION) =>
   ({
-    OAUTH: `http://oauth.${STAGE}-${TENANT}.local`
+    OAUTH: OAUTH_URL
   }) as const;
