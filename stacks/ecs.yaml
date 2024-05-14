@@ -101,7 +101,6 @@ Resources:
                         Action:
                           - ssm:GetParameter
                           - secretsmanager:GetSecretValue
-                          - sqs:ReceiveMessage
                           - sqs:SendMessage
                           - s3:GetObject
                           - s3:PutObject
