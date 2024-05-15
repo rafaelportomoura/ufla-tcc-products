@@ -2,20 +2,15 @@ import { expect } from 'chai';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import sinon from 'sinon';
-import { Validator } from '../../../src/adapters/validate';
 import { AddImage } from '../../../src/business/addImage';
 import { CODE_MESSAGES } from '../../../src/constants/codeMessages';
 import { addImage } from '../../../src/controllers/addImage';
 import { BadRequestError } from '../../../src/exceptions/BadRequestError';
-import { add_image_path_schema } from '../../../src/schemas/addImage';
-import { fastify_request } from '../../data/fastify';
+import { fastify_reply, fastify_request, fastify_stub } from '../../data/fastify';
 
-describe('addImage controller', () => {
+describe('Controller -> AddImage', () => {
   let req: Partial<FastifyRequest>;
   let res: Record<keyof FastifyReply, sinon.SinonStub>;
-  let validator_stub: sinon.SinonStubbedInstance<Validator<typeof add_image_path_schema>>;
-  let add_image_business_stub: sinon.SinonStubbedInstance<AddImage>;
-
   beforeEach(() => {
     sinon.restore();
     req = fastify_request({
@@ -24,16 +19,13 @@ describe('addImage controller', () => {
       params: { product_id: '12345' }
     });
 
-    res = {
-      status: sinon.stub().returnsThis(),
-      send: sinon.stub()
-    } as unknown as Record<keyof FastifyReply, sinon.SinonStub>;
+    res = fastify_stub();
   });
 
   it('should return 400 if request is not multipart', async () => {
     req.isMultipart = sinon.stub().returns(false);
 
-    const result = await addImage(req as FastifyRequest, res as unknown as FastifyReply);
+    const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
     expect(result).instanceOf(BadRequestError);
     expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED));
@@ -43,7 +35,7 @@ describe('addImage controller', () => {
   it('should return 400 if no file is provided', async () => {
     req.file = sinon.stub().resolves(null);
 
-    const result = await addImage(req as FastifyRequest, res as unknown as FastifyReply);
+    const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
     expect(result).instanceOf(BadRequestError);
     expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED));
@@ -53,7 +45,7 @@ describe('addImage controller', () => {
   it('should return 400 if fieldname is not "image"', async () => {
     req.file = sinon.stub().resolves({ fieldname: 'wrong_field' });
 
-    const result = await addImage(req as FastifyRequest, res as unknown as FastifyReply);
+    const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
     expect(result).instanceOf(BadRequestError);
     expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.JUST_IMAGE_FIELD_IS_ALLOWED));
@@ -64,10 +56,9 @@ describe('addImage controller', () => {
     const file = { fieldname: 'image' };
     req.file = sinon.stub().resolves(file);
 
-    sinon.stub(Validator.prototype, 'validate').resolves({ product_id: '12345' });
     sinon.stub(AddImage.prototype, 'addImage').resolves('image12345');
 
-    const result = await addImage(req as FastifyRequest, res as unknown as FastifyReply);
+    const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
     expect(result).deep.equal({ image_id: 'image12345' });
     expect(res.status.calledWith(StatusCodes.CREATED)).equal(true);

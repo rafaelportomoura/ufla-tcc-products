@@ -9,7 +9,7 @@ import { CONFIGURATION } from '../constants/configuration';
 import { BaseError } from '../exceptions/BaseError';
 import { error_handler } from '../middlewares/error';
 import { create_product_schema } from '../schemas/createProduct';
-import { CreateProductPayload, CreateProductResponse } from '../types/CreateProduct';
+import { CreateProductResponse } from '../types/CreateProduct';
 import { request_id } from '../utils/requestId';
 
 export async function createProduct(
@@ -25,7 +25,7 @@ export async function createProduct(
       topic: CONFIGURATION.EVENT_BUS,
       aws_params: aws_config()
     });
-    const { _id } = await business.create(body as CreateProductPayload);
+    const { _id } = await business.create(body);
     const response = {
       product_id: _id,
       ...CODE_MESSAGES.CREATE_PRODUCT

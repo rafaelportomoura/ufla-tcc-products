@@ -10,7 +10,7 @@ export class ProductData {
       _id: faker.database.mongodbObjectId(),
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      price: faker.number.float(),
+      price: faker.number.float({ multipleOf: 0.01 }),
       images: [faker.internet.url()],
       created_at: faker.date.recent(),
       updated_at: faker.date.recent(),
@@ -21,7 +21,7 @@ export class ProductData {
     return {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      price: faker.number.float(),
+      price: faker.number.float({ multipleOf: 0.01 }),
       ...d
     };
   }

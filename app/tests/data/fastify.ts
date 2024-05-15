@@ -1,8 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingHttpHeaders } from 'node:http';
+import sinon from 'sinon';
 
 type FastifyRequestMock = {
   body?: unknown;
@@ -20,9 +22,14 @@ export const fastify_request = (req?: FastifyRequestMock): FastifyRequest =>
     ...req
   }) as FastifyRequest;
 
-export const fastify_reply = (res?: Partial<FastifyReply>): FastifyReply =>
+export const fastify_reply = (res: Record<keyof FastifyReply, sinon.SinonStub>): FastifyReply =>
+  res as unknown as FastifyReply;
+
+export const fastify_stub = (
+  res?: Partial<Record<keyof FastifyReply, sinon.SinonStub>>
+): Record<keyof FastifyReply, sinon.SinonStub> =>
   ({
-    send: (...args: any[]) => {},
-    status: (...args: any[]) => {},
+    status: sinon.stub().returnsThis(),
+    send: sinon.stub(),
     ...res
-  }) as FastifyReply;
+  }) as Record<keyof FastifyReply, sinon.SinonStub>;
