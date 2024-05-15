@@ -70,8 +70,9 @@ describe('Business - ListProducts', () => {
 
   it('should create a valid query from filters', () => {
     const filter: ListProductsFilter = ListProductData.filter({
-      search: ListProductData.search({ name: { eq: 'p' } })
+      search: ListProductData.search({ name: { eq: 'p' } }, ['name'])
     });
+
     const expected_query: FilterQuery<Product> = {
       name: {
         ...OPERATORS_MAP_TO_MONGO['eq']('p')
