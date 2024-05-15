@@ -33,7 +33,7 @@ describe('GetProduct', () => {
       await get_product.get(product_id);
     } catch (error) {
       expect(error).instanceOf(NotFoundError);
-      expect(error.message).deep.equal(new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND));
+      expect(error).deep.equal(new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND));
     }
   });
 

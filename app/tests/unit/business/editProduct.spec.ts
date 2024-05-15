@@ -60,7 +60,7 @@ describe('Business -> EditProduct', () => {
   });
 
   it('should edit an existing product and send an event', async () => {
-    const payload: EditProductPayload = ProductData.edit();
+    const payload: EditProductPayload = ProductData.edit({ name: undefined });
     const edited_product: Product = ProductData.product(payload);
 
     repository_stub.findOne.resolves();
