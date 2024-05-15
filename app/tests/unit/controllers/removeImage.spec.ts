@@ -30,7 +30,7 @@ describe('Controller -> RemoveImage', () => {
   });
 
   it('should handle validation errors', async () => {
-    req.params = {};
+    req.params = { image_id: '/' };
 
     const result = await removeImage(req as FastifyRequest, fastify_reply(res));
 
