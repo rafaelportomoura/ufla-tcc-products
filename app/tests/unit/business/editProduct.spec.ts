@@ -25,6 +25,7 @@ describe('Business -> EditProduct', () => {
   const product_id = 'test_product_id';
 
   beforeEach(() => {
+    sinon.restore();
     repository_stub = sinon.createStubInstance(ProductsRepository);
     event_bus_stub = sinon.createStubInstance(EventBus);
     edit_product = new EditProduct(product_id, { logger, topic, aws_params });
@@ -84,9 +85,5 @@ describe('Business -> EditProduct', () => {
 
     expect(event_bus_stub.messageAttributes.calledOnceWith(EVENT_TYPE.EDIT, EVENT_STATUS.SUCCESS)).equal(true);
     expect(event_bus_stub.pub.calledOnceWith(product, event_attributes)).equal(true);
-  });
-
-  afterEach(() => {
-    sinon.restore();
   });
 });
