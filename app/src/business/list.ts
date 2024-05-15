@@ -24,7 +24,7 @@ export class ListProducts {
 
     const count = await this.repository.count(query);
 
-    if (count < options.skip) throw new BadRequestError(CODE_MESSAGES.INVALID_PAGE);
+    if (count < options.skip + 1) throw new BadRequestError(CODE_MESSAGES.INVALID_PAGE);
 
     const products = await this.repository.find(query, project, options);
 

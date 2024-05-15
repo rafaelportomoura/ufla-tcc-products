@@ -10,7 +10,7 @@ import { ProductsRepository } from '../../../src/repositories/products';
 import { Product } from '../../../src/types/Product';
 import { ProductData } from '../../data/product';
 
-describe('GetProduct', () => {
+describe('Business -> GetProduct', () => {
   let get_product: GetProduct;
   let repository_stub: sinon.SinonStubbedInstance<ProductsRepository>;
   const logger = new Logger(LoggerLevel.silent, 'test');
