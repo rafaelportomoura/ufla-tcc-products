@@ -14,7 +14,7 @@ import { Product } from '../../../src/types/Product';
 import { EventBusData } from '../../data/eventBus';
 import { ProductData } from '../../data/product';
 
-describe('CreateProduct', () => {
+describe('Business -> CreateProduct', () => {
   let create_product: CreateProduct;
   let repository_stub: Sinon.SinonStubbedInstance<ProductsRepository>;
   let event_bus_stub: Sinon.SinonStubbedInstance<EventBus>;

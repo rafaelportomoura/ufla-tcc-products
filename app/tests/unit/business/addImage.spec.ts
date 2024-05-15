@@ -17,7 +17,7 @@ import { UnsupportedMediaTypeError } from '../../../src/exceptions/UnsupportedMe
 import { ProductsRepository } from '../../../src/repositories/products';
 import { ProductData } from '../../data/product';
 
-describe('AddImage', () => {
+describe('Business -> AddImage', () => {
   let add_image: AddImage;
   let repository_stub: Sinon.SinonStubbedInstance<ProductsRepository>;
   let s3_stub: Sinon.SinonStubbedInstance<S3>;
