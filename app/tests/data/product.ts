@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { faker } from '@faker-js/faker';
 import { CreateProductPayload } from '../../src/types/CreateProduct';
+import { EditProductPayload } from '../../src/types/EditProduct';
 import { Product } from '../../src/types/Product';
 
 export class ProductData {
@@ -17,6 +18,15 @@ export class ProductData {
     };
   }
   static create(d?: Partial<CreateProductPayload>): CreateProductPayload {
+    return {
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      price: faker.number.float(),
+      ...d
+    };
+  }
+
+  static edit(d?: Partial<EditProductPayload>): EditProductPayload {
     return {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
