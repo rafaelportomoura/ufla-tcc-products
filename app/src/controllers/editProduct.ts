@@ -8,7 +8,6 @@ import { CONFIGURATION } from '../constants/configuration';
 import { BaseError } from '../exceptions/BaseError';
 import { error_handler } from '../middlewares/error';
 import { edit_product_schema } from '../schemas/editProduct';
-import { EditProductPayload } from '../types/EditProduct';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
@@ -24,7 +23,7 @@ export async function editProduct(req: FastifyRequest, res: FastifyReply): Promi
       topic: CONFIGURATION.EVENT_BUS,
       aws_params: aws_config()
     });
-    await business.edit(body as EditProductPayload);
+    await business.edit(body);
     return res.status(StatusCodes.NO_CONTENT).send();
   } catch (error) {
     const response = error_handler(logger, error, 'EditProduct');
