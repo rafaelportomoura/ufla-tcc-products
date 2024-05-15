@@ -9,7 +9,7 @@ type FastifyRequestMock = {
   query?: unknown;
   params?: unknown;
   headers?: IncomingHttpHeaders;
-};
+} & Record<string, unknown>;
 
 export const fastify_request = (req?: FastifyRequestMock): FastifyRequest =>
   ({
