@@ -32,8 +32,8 @@ describe('GetProduct', () => {
     try {
       await get_product.get(product_id);
     } catch (error) {
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal(CODE_MESSAGES.PRODUCT_NOT_FOUND);
+      expect(error).instanceOf(NotFoundError);
+      expect(error.message).deep.equal(new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND));
     }
   });
 
