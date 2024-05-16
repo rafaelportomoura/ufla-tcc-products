@@ -25,11 +25,11 @@ export class DocumentDatabase {
     this.ssm = new SSM(aws_config(config));
   }
 
-  async connect(params_secret?: DocumentSecret, document_params?: DocumentParams) {
+  async connect(document_secrets?: DocumentSecret, document_params?: DocumentParams) {
     try {
-      if (mongoose.connection.readyState) return;
+      if (mongoose.connection.readyState === 1) return;
 
-      let secrets = params_secret;
+      let secrets = document_secrets;
       if (isEmpty(secrets)) {
         secrets = await this.secret_manager.getSecret<DocumentSecret>(CONFIGURATION.DOCUMENT_SECRET);
       }
@@ -52,7 +52,7 @@ export class DocumentDatabase {
       });
       this.logger.debug('Mongo Connected');
     } catch (error) {
-      this.logger.error('DatabaseError', error.message, error.code);
+      this.logger.error(error.name, error.message, error);
       throw new DatabaseError(CODE_MESSAGES.CANNOT_ACCESS_DATABASE);
     }
   }

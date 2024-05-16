@@ -20,6 +20,7 @@ describe('Business -> RemoveImage', () => {
   const bucket = 'test-bucket';
 
   beforeEach(() => {
+    sinon.restore();
     repository_stub = sinon.createStubInstance(ProductsRepository);
     s3_stub = sinon.createStubInstance(S3);
     logger_stub = sinon.createStubInstance(Logger);
@@ -75,9 +76,5 @@ describe('Business -> RemoveImage', () => {
     expect(logger_stub.debug.calledWith('Image Found')).equal(true);
     expect(logger_stub.debug.calledWith('Image Removed')).equal(true);
     expect(logger_stub.debug.calledWith('Image Removed from Product')).equal(true);
-  });
-
-  afterEach(() => {
-    sinon.restore();
   });
 });
