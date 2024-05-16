@@ -23,10 +23,6 @@ export class ProductsRepository {
     await this.document_database.connect();
   }
 
-  async disconnect() {
-    await this.document_database.disconnect();
-  }
-
   async create(payload: RawProduct): Promise<Product> {
     await this.connect();
     const product = await this.model.create(payload);
