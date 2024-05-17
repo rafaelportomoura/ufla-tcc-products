@@ -3,37 +3,13 @@ import { faker } from '@faker-js/faker';
 
 export class AuthorizerData {
   static methodArn(method: string, path: string): string {
-    return `arn:aws:execute-api:us-east-1:123456789012:api-id/dev/${method}/${path}`;
+    return `arn:aws:execute-api:us-east-1:123456789012:api-id/dev/${method}${path}`;
   }
-
-  static pubKeyArn(): string {
-    return AuthorizerData.methodArn('GET', 'keys/pub-key');
+  static create(): string {
+    return AuthorizerData.methodArn('POST', '/');
   }
-
-  static getUser(username: string = faker.internet.userName()): string {
-    return AuthorizerData.methodArn('GET', `users/${encodeURIComponent(username)}`);
-  }
-
-  static createAdmin(): string {
-    return AuthorizerData.methodArn('POST', 'users/admins');
-  }
-
-  static forceAdmin(): string {
-    return AuthorizerData.methodArn('POST', 'users/admins/force');
-  }
-
-  static createCustomer(): string {
-    return AuthorizerData.methodArn('POST', 'users/customers');
-  }
-
-  static allArns(username: string = faker.internet.userName()): string[] {
-    return [
-      AuthorizerData.pubKeyArn(),
-      AuthorizerData.getUser(username),
-      AuthorizerData.createAdmin(),
-      AuthorizerData.forceAdmin(),
-      AuthorizerData.createCustomer()
-    ];
+  static allArns(): string[] {
+    return [AuthorizerData.create()];
   }
 
   static decodedToken(username: string = faker.internet.userName()) {

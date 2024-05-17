@@ -8,8 +8,8 @@ import { AuthorizerData } from '../../data/authorizer';
 describe('Utils -> GenerateAuthResponse', () => {
   const username = faker.internet.userName();
   const token = AuthorizerData.decodedToken(username);
-  const arn = AuthorizerData.getUser();
-  const method_arn = AuthorizerData.methodArn('GET', '*');
+  const arn = AuthorizerData.create();
+  const method_arn = AuthorizerData.methodArn('POST', '/*');
   it('Should allow policy', () => {
     const response = GenerateAuthResponse.success(token, arn);
     expect(response).deep.equal(AuthorizerData.allowPolicyDocument(username, token.sub, method_arn));
