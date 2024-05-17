@@ -36,7 +36,7 @@ export class AuthorizerData {
     ];
   }
 
-  static decodedToken(username: string) {
+  static decodedToken(username: string = faker.internet.userName()) {
     return {
       username,
       sub: 'sub',
