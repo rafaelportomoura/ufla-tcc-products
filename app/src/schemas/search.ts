@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash';
-import { ZodEnum, ZodNumber, ZodOptional, ZodPipeline, ZodType, ZodTypeAny, z } from 'zod';
+import { ZodEnum, ZodNumber, ZodOptional, ZodPipeline, ZodType, ZodTypeAny, ZodUnion, z } from 'zod';
 import { OPERATOR } from '../constants/search';
 import { Operator } from '../types/Search';
 
 export const project_schema = <T extends string>(...keys: T[]) => {
-  const obj = {} as Record<T, ZodOptional<ZodPipeline<ZodEnum<['0', '1']>, ZodNumber>>>;
+  const obj = {} as Record<T, ZodUnion<[ZodOptional<ZodPipeline<ZodEnum<['0', '1']>, ZodNumber>>, ZodNumber]>>;
   for (const key of keys) {
-    obj[key] = z.enum(['0', '1']).pipe(z.coerce.number()).optional();
+    obj[key] = z.enum(['0', '1']).pipe(z.coerce.number()).optional().or(z.number().min(0).max(1));
   }
 
   return z
