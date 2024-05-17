@@ -7,6 +7,7 @@ import { CODE_MESSAGES } from '../../../src/constants/codeMessages';
 import { addImage } from '../../../src/controllers/addImage';
 import { BadRequestError } from '../../../src/exceptions/BadRequestError';
 import { fastify_reply, fastify_request, fastify_stub } from '../../data/fastify';
+import { ProductData } from '../../data/product';
 
 describe('Controller -> AddImage', () => {
   let req: Partial<FastifyRequest>;
@@ -16,7 +17,7 @@ describe('Controller -> AddImage', () => {
     req = fastify_request({
       isMultipart: sinon.stub().returns(true),
       file: sinon.stub(),
-      params: { product_id: '12345' }
+      params: { product_id: ProductData._id() }
     });
 
     res = fastify_stub();

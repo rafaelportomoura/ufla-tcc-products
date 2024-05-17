@@ -5,9 +5,11 @@ import { EditProductPayload } from '../../src/types/EditProduct';
 import { Product } from '../../src/types/Product';
 
 export class ProductData {
+  static readonly _id = () => faker.database.mongodbObjectId();
+
   static product(d?: Partial<Product>): Product {
     return {
-      _id: faker.database.mongodbObjectId(),
+      _id: this._id(),
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: faker.number.float({ multipleOf: 0.01 }),

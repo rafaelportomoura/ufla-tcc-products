@@ -4,7 +4,7 @@ import { ValidationError } from '../../../src/exceptions/ValidationError';
 import { add_image_path_schema } from '../../../src/schemas/addImage';
 import { ProductData } from '../../data/product';
 
-describe('Adapters -> Validate', async () => {
+describe('Schema -> AddImage', async () => {
   it('Should validate schema', async () => {
     const validator = new Validator(add_image_path_schema);
     const product_id = ProductData._id();

@@ -1,10 +1,9 @@
-import { isValidObjectId } from 'mongoose';
 import { z } from 'zod';
-import { project_product_schema } from './product';
+import { product_schema, project_product_schema } from './product';
 
 export const get_product_path_schema = z
   .object({
-    product_id: z.string().refine((value) => isValidObjectId(value), 'Invalid ObjectId')
+    product_id: product_schema._id
   })
   .strict();
 
