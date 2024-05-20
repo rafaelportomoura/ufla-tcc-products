@@ -7,6 +7,7 @@ import { ForbiddenError } from '../exceptions/ForbiddenError';
 import { UnauthorizedError } from '../exceptions/Unauthorized';
 import { OAuthService } from '../services/OAuth';
 import { GenerateAuthResponse } from '../utils/generateAuthResponse';
+import { request_id } from '../utils/requestId';
 
 export async function authorizer(
   event: APIGatewayRequestAuthorizerEvent,
@@ -20,7 +21,8 @@ export async function authorizer(
     const token = headers ? (headers.authorization?.split(' ')[1] as string) : authorization_token.split(' ')[1];
 
     const authorizer_business = new OAuthService({
-      baseURL: URLS(CONFIGURATION).OAUTH
+      baseURL: URLS(CONFIGURATION).OAUTH,
+      headers: { request_id: request_id() }
     });
 
     const { decoded_token, group } = await authorizer_business.validateToken(token);
