@@ -11,7 +11,10 @@ import { edit_product_schema } from '../schemas/editProduct';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
-export async function editProduct(req: FastifyRequest, res: FastifyReply): Promise<void | BaseError> {
+export async function editProduct(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<void | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     logger.info('EditProduct', decodeObject(req.params));

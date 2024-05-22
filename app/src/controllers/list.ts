@@ -12,7 +12,10 @@ import { ListProductsResponse } from '../types/ListProducts';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
-export async function listProducts(req: FastifyRequest, res: FastifyReply): Promise<ListProductsResponse | BaseError> {
+export async function listProducts(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<ListProductsResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const raw_query = decodeObject(req.query);

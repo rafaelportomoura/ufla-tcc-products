@@ -5,7 +5,6 @@ import sinon from 'sinon';
 import { CreateProduct } from '../../../src/business/createProduct';
 import { CODE_MESSAGES } from '../../../src/constants/codeMessages';
 import { createProduct } from '../../../src/controllers/createProduct';
-import { ValidationError } from '../../../src/exceptions/ValidationError';
 import { CreateProductPayload } from '../../../src/types/CreateProduct';
 import { fastify_reply, fastify_request, fastify_stub } from '../../data/fastify';
 import { ProductData } from '../../data/product';
@@ -34,7 +33,7 @@ describe('Controller -> CreateProduct', () => {
     req.body = ProductData.create({ name: undefined });
     const result = await createProduct(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(ValidationError);
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
+    expect(result.code).equal(CODE_MESSAGES.VALIDATION_ERROR.code);
   });
 });

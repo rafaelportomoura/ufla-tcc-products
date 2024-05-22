@@ -13,7 +13,10 @@ import { Product } from '../types/Product';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
-export async function getProduct(req: FastifyRequest, res: FastifyReply): Promise<Product | BaseError> {
+export async function getProduct(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<Product | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const path_validator = new Validator(get_product_path_schema);

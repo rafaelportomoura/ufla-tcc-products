@@ -11,7 +11,10 @@ import { remove_image_path_schema } from '../schemas/removeImage';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
-export async function removeImage(req: FastifyRequest, res: FastifyReply): Promise<void | BaseError> {
+export async function removeImage(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<void | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     logger.debug('RemoveImage', decodeObject(req.params));

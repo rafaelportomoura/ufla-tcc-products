@@ -25,7 +25,10 @@ const options = {
   }
 };
 
-export async function addImage(req: FastifyRequest, res: FastifyReply): Promise<AddImageResponse | BaseError> {
+export async function addImage(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<AddImageResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     logger.debug('AddImage', decodeObject(req.params));

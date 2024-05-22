@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import sinon from 'sinon';
 import { Validator } from '../../../src/adapters/validate';
 import { RemoveImage } from '../../../src/business/removeImage';
+import { CODE_MESSAGES } from '../../../src/constants/codeMessages';
 import { removeImage } from '../../../src/controllers/removeImage';
-import { ValidationError } from '../../../src/exceptions/ValidationError';
 import { fastify_reply, fastify_request, fastify_stub } from '../../data/fastify';
 
 describe('Controller -> RemoveImage', () => {
@@ -34,7 +35,7 @@ describe('Controller -> RemoveImage', () => {
 
     const result = await removeImage(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(ValidationError);
+    expect((result as any).code).equal(CODE_MESSAGES.VALIDATION_ERROR.code);
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
   });
 });

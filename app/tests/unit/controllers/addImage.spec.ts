@@ -28,8 +28,7 @@ describe('Controller -> AddImage', () => {
 
     const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(BadRequestError);
-    expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED));
+    expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED).toJSON());
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
   });
 
@@ -38,8 +37,7 @@ describe('Controller -> AddImage', () => {
 
     const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(BadRequestError);
-    expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED));
+    expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.IMAGE_IS_REQUIRED).toJSON());
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
   });
 
@@ -48,8 +46,7 @@ describe('Controller -> AddImage', () => {
 
     const result = await addImage(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(BadRequestError);
-    expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.JUST_IMAGE_FIELD_IS_ALLOWED));
+    expect(result).deep.equal(new BadRequestError(CODE_MESSAGES.JUST_IMAGE_FIELD_IS_ALLOWED).toJSON());
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
   });
 

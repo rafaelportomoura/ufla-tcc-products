@@ -15,7 +15,7 @@ import { request_id } from '../utils/requestId';
 export async function createProduct(
   req: FastifyRequest,
   res: FastifyReply
-): Promise<CreateProductResponse | BaseError> {
+): Promise<CreateProductResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const validator = new Validator(create_product_schema);

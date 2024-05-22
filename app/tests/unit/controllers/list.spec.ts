@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import sinon from 'sinon';
 import { ListProducts } from '../../../src/business/list';
 import { listProducts } from '../../../src/controllers/list';
-import { ValidationError } from '../../../src/exceptions/ValidationError';
 import { ListProductsResponse } from '../../../src/types/ListProducts';
 import { fastify_reply, fastify_request, fastify_stub } from '../../data/fastify';
 import { ListProductData } from '../../data/list';
 import { ProductData } from '../../data/product';
+
+import { CODE_MESSAGES } from '../../../src/constants/codeMessages';
 
 describe('Controller -> ListProducts', () => {
   let req: Partial<FastifyRequest>;
@@ -42,7 +44,7 @@ describe('Controller -> ListProducts', () => {
 
     const result = await listProducts(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(ValidationError);
+    expect((result as any).code).equal(CODE_MESSAGES.VALIDATION_ERROR.code);
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
   });
 });
