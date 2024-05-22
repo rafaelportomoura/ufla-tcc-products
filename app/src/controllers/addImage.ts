@@ -53,6 +53,6 @@ export async function addImage(
   } catch (error) {
     const response = error_handler(logger, error, 'addImage');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

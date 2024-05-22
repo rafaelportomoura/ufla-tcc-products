@@ -35,6 +35,6 @@ export async function createProduct(
   } catch (error) {
     const response = error_handler(logger, error, 'CreateProduct');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

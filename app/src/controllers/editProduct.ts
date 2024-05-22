@@ -31,6 +31,6 @@ export async function editProduct(
   } catch (error) {
     const response = error_handler(logger, error, 'EditProduct');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

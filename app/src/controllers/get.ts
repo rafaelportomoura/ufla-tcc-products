@@ -34,6 +34,6 @@ export async function getProduct(
   } catch (error) {
     const response = error_handler(logger, error, 'GetProduct');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }
