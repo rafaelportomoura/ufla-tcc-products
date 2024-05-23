@@ -26,7 +26,6 @@
     "@aws-sdk/client-s3": "^3.507.0",
     "@aws-sdk/client-secrets-manager": "^3.491.0",
     "@aws-sdk/client-sns": "^3.485.0",
-    "@aws-sdk/client-sqs": "^3.499.0",
     "@aws-sdk/client-ssm": "^3.499.0",
     "@aws-sdk/credential-providers": "^3.499.0",
     "@aws-sdk/lib-storage": "^3.507.0",
